@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPBack.API", "DPBack.API\DPBack.API.csproj", "{58C7E1C1-D7C2-4576-B16D-C83A9EDDD3FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPBack.Application", "DPBack.Application\DPBack.Application.csproj", "{83AC43D2-4D81-4FB1-9C25-931F3D6C195B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPBack.Domain", "DPBack.Domain\DPBack.Domain.csproj", "{114C4270-2D0F-4E41-BCE1-DCCEFFF2C4AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPBack.Infrastructure", "DPBack.Infrastructure\DPBack.Infrastructure.csproj", "{A91A1ACA-A71F-489B-BAD4-360081D685F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58C7E1C1-D7C2-4576-B16D-C83A9EDDD3FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C7E1C1-D7C2-4576-B16D-C83A9EDDD3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C7E1C1-D7C2-4576-B16D-C83A9EDDD3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C7E1C1-D7C2-4576-B16D-C83A9EDDD3FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83AC43D2-4D81-4FB1-9C25-931F3D6C195B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AC43D2-4D81-4FB1-9C25-931F3D6C195B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AC43D2-4D81-4FB1-9C25-931F3D6C195B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AC43D2-4D81-4FB1-9C25-931F3D6C195B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114C4270-2D0F-4E41-BCE1-DCCEFFF2C4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114C4270-2D0F-4E41-BCE1-DCCEFFF2C4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114C4270-2D0F-4E41-BCE1-DCCEFFF2C4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114C4270-2D0F-4E41-BCE1-DCCEFFF2C4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91A1ACA-A71F-489B-BAD4-360081D685F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91A1ACA-A71F-489B-BAD4-360081D685F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91A1ACA-A71F-489B-BAD4-360081D685F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91A1ACA-A71F-489B-BAD4-360081D685F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
