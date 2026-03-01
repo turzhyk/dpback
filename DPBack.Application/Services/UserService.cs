@@ -1,21 +1,50 @@
 
 using DPBack.Application.Contracts;
 using DPBack.Application.Interfaces;
+using DPBack.Application.Validators;
+using DPBack.Domain.Enums;
 using DPBack.Domain.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DPBack.Application.Services;
 
 public class UserService : IUserService
 {
     public readonly IUsersRepository _repo;
+    private readonly IPasswordHasher<User> _passwordHasher;
 
-    public UserService(IUsersRepository repo)
+    public UserService(IUsersRepository repo, IPasswordHasher<User> passwordHasher)
     {
         _repo = repo;
+        _passwordHasher = passwordHasher;
     }
 
-    public async Task<Guid> CreateUser(User user) => await _repo.CreateAsync(user);
-    
+    public async Task<Guid> CreateUser(UserCreateRequest request)
+    {
+        if (!EmailValidator.IsValid(request.Email))
+            throw new Exception("Invalid email");
+
+        // if (await _repo.Пуе(request.Email))
+        //     throw new Exception("User exists");
+
+         var user = new User(
+            Guid.NewGuid(),
+            request.Email,
+            "",
+            request.Email,
+            UserRole.User,
+            DateTime.UtcNow
+        );
+
+        var hash = _passwordHasher.HashPassword(user, request.Password);
+
+        user.SetPassword(hash); 
+
+        await _repo.CreateAsync(user);
+
+        return user.Id;
+    }
+
     public async Task<User> GetByEmail(string email) => await _repo.GetByEmail(email);
 
     public async Task<List<UserAddressGetDto>> GetAdressesByUserId(Guid id)

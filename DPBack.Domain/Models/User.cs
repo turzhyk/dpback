@@ -1,17 +1,14 @@
+using DPBack.Domain.Enums;
+
 namespace DPBack.Domain.Models
 {
-    public enum UserRole
-    {
-        User,
-        Worker,
-        Admin,
-    }
+   
 
     public class User
     {
         public Guid Id { get; }
         public string Login { get; }
-        public string PasswordHash { get; }
+        public string PasswordHash { get; private set; }
         public string Email { get; }
         public UserRole Role { get; }
         public DateTime CreatedAt { get; }
@@ -25,6 +22,11 @@ namespace DPBack.Domain.Models
             Email = email;
             Role = role;
             CreatedAt = createdAt;
+        }
+
+        public void SetPassword(string password)
+        {
+            PasswordHash = password;
         }
     }
 }

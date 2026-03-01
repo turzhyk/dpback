@@ -3,10 +3,13 @@ using System.Security.Claims;
 using DPBack.API.TockenProvider;
 using DPBack.Application.Contracts;
 using DPBack.Application.Interfaces;
+using DPBack.Application.Validators;
+using DPBack.Domain.Enums;
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using DPBack.Application.Validators;
 
 namespace DPBack.API.Controllers;
 
@@ -22,18 +25,10 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateUser([FromBody] UserCreateRequest request,
-        [FromServices] IPasswordHasher<User> passwordHasher)
+    public async Task<ActionResult<Guid>> CreateUser(UserCreateRequest request)
     {
-        // var existing = await _userRepo.GetByEmail(request.Email);
-        // if (existing != null)
-        //     return BadRequest("User already exists");
-
-        var user = new User(Guid.NewGuid(), request.Email, "", request.Email, UserRole.User, DateTime.UtcNow);
-        var hashedPword = passwordHasher.HashPassword(user, request.Password);
-        var final = new User(user.Id, user.Email, hashedPword, user.Email, user.Role, user.CreatedAt);
-        await _service.CreateUser(final);
-        return Ok(user.Id);
+        var id = await _service.CreateUser(request);
+        return Ok(id);
     }
 
     [HttpPost("login")]
