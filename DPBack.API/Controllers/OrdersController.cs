@@ -2,12 +2,14 @@
 using DPBack.Application.Contracts;
 using DPBack.Application.Interfaces;
 using DPBack.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DPBack.API.Controllers
 {
     [ApiController]
     [Route("api/orders")]
+    
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersService _service;
@@ -25,6 +27,7 @@ namespace DPBack.API.Controllers
         //     
         // }
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
         {
             var orders = await _service.GetAllOrders();
@@ -55,6 +58,7 @@ namespace DPBack.API.Controllers
         }
 
         [HttpPost("assign")]
+        [Authorize]
         public async Task<ActionResult> AssignOrderTo([FromBody] AssignOrderRequest request)
         {
             await _service.AssignToAsync(request.OrderId, request.AuthorLogin);

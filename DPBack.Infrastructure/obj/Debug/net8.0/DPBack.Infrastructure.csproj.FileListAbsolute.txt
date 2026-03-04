@@ -11,6 +11,7 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPB
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.Infrastructure.AssemblyInfo.cs
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.Infrastructure.sourcelink.json
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.I.D74C08F4.Up2Date
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\DPBack.Infrastructure.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Infrastructure\obj\Debug\net8.0\refint\DPBack.Infrastructure.dll

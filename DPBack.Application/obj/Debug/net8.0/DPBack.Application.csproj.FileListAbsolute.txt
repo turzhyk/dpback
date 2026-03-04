@@ -8,6 +8,7 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.Application.AssemblyInfoInputs.cache
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.Application.AssemblyInfo.cs
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.Application.csproj.CoreCompileInputs.cache
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.Application.sourcelink.json
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.A.6CFF1380.Up2Date
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\DPBack.Application.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.Application\obj\Debug\net8.0\refint\DPBack.Application.dll

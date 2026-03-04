@@ -7,6 +7,8 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\DPBack.API.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\DPBack.API.pdb
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Humanizer.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -16,12 +18,11 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Enti
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
-C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
@@ -114,6 +115,7 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.Ass
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.csproj.CoreCompileInputs.cache
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.sourcelink.json
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\staticwebassets\msbuild.DPBack.API.Microsoft.AspNetCore.StaticWebAssets.props

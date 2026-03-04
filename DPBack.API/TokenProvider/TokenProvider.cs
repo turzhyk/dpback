@@ -3,6 +3,7 @@ using System.Text;
 using DPBack.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
+using System.Security.Claims;
 
 namespace DPBack.API.TockenProvider;
 
@@ -21,7 +22,8 @@ public class TokenProvider
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Name, user.Login)
+                new Claim(JwtRegisteredClaimNames.Name, user.Login),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             ]),
             // Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = credentials,
