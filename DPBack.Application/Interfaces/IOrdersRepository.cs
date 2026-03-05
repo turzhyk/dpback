@@ -11,7 +11,7 @@ namespace DPBack.Application.Interfaces
         Task<Order> GetWithId(Guid id);
         Task Update(Order order);
         Task<Guid> Update(Guid id, string description, decimal price, string assignedTo);
-
+        Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor);
         Task AssignOrderWithStatus(
             Guid orderId,
             string author,

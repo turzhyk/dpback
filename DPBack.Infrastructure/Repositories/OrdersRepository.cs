@@ -1,6 +1,4 @@
-﻿
-
-using DPBack.Application.Interfaces;
+﻿using DPBack.Application.Interfaces;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Entities;
@@ -109,7 +107,7 @@ namespace DPBack.Infrastructure.Repositories
             var initHistoryElement = new OrderHistoryElementEntity
             {
                 OrderId = order.Id,
-                Status = "New",
+                Status = OrderStatus.New,
                 ChangedAt = DateTime.UtcNow,
                 AuthorLogin = "-",
                 Id = Guid.NewGuid()
@@ -129,7 +127,7 @@ namespace DPBack.Infrastructure.Repositories
                 Descriprion = order.Descriprion,
                 TotalPrice = order.TotalPrice,
                 AssignedTo = order.AssignedTo,
-                Items = items, 
+                Items = items,
                 History = history,
                 CreatedAt = order.CreatedAt,
                 PaymentStatus = order.PaymentStatus,
@@ -138,6 +136,27 @@ namespace DPBack.Infrastructure.Repositories
             await _context.Orders.AddAsync(orderEntity);
             await _context.SaveChangesAsync();
             return order.Id;
+        }
+
+        public async Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor)
+        {
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+            if (order == null)
+                throw new Exception($"No order found with id {orderId}");
+            order.Status = status;
+
+            order.AssignedTo = newAuthor;
+
+            _context.OrderStatusHistories.Add(new OrderHistoryElementEntity
+            {
+                Id = Guid.NewGuid(),
+                OrderId = orderId,
+                AuthorLogin = author,
+                Status = status,
+                ChangedAt = DateTime.UtcNow
+            });
+            await _context.SaveChangesAsync();
         }
 
         public async Task AssignOrderWithStatus(
@@ -159,7 +178,7 @@ namespace DPBack.Infrastructure.Repositories
                 OrderId = orderId,
                 Status = historyElement.Status,
                 AuthorLogin = historyElement.AuthorLogin,
-                ChangedAt = DateTime.UtcNow
+                ChangedAt = historyElement.ChangedAt,
             });
 
             await _context.SaveChangesAsync();

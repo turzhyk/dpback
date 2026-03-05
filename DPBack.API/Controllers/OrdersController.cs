@@ -1,7 +1,8 @@
 ﻿
+using System.Security.Claims;
 using DPBack.Application.Contracts;
 using DPBack.Application.Interfaces;
-using DPBack.Domain.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +21,7 @@ namespace DPBack.API.Controllers
             _service = service;
             _priceCalcService = priceCalcService;
         }
-
-        // [HttpGet("byId")]
-        // public async Task<ActionResult<OrdersResponse>> GetOrderByIdAsync()
-        // {
-        //     
-        // }
+        
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
@@ -45,7 +41,7 @@ namespace DPBack.API.Controllers
                     }).ToList(),
                     History = o.History.Select(h => new OrderHistoryElementResponse
                     {
-                        Status = h.Status,
+                        Status = h.Status.ToString(),
                         ChangedAt = h.ChangedAt,
                         AuthorId = h.AuthorLogin
                     }).ToList(),
@@ -57,15 +53,27 @@ namespace DPBack.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("assign")]
+        [HttpPost("{id}/assign")]
         [Authorize]
-        public async Task<ActionResult> AssignOrderTo([FromBody] AssignOrderRequest request)
+        public async Task<ActionResult> AssignOrderTo(Guid id, [FromBody] AssignOrderRequest request)
         {
-            await _service.AssignToAsync(request.OrderId, request.AuthorLogin);
+            await _service.AssignToAsync(id, request.AuthorLogin);
+            return Ok();
+        }
+        [HttpPost("{id}/setStatus")]
+        [Authorize]
+        public async Task<ActionResult> ChangeOrderStatus(Guid id,[FromBody] ChangeOrderStatusRequestDto request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                throw new Exception("no active user found");
+            }
+            await _service.ChangeStatus(id, userId, request.Status);
             return Ok();
         }
 
-        [HttpPost("price")]
+        [HttpPost("getPrice")]
         public async Task<ActionResult<PriceResultDto>> GetPricePerUnit([FromBody] GetPriceDto request)
         {
            return  await _priceCalcService.CalculatePrice(request);
@@ -73,26 +81,8 @@ namespace DPBack.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateOrder([FromBody] OrdersRequest request)
         {
-            var items = request.Items.Select(i => new OrderItem
-            {
-                Id = Guid.NewGuid(),
-                Quantity = i.Quantity,
-                Type = i.Type,
-                Options = i.Options,
-            }).ToList();
-            var (order, error) = Order.Create(
-                Guid.NewGuid(),
-                request.Desc,
-                request.Price,
-                items,
-                "",
-                DateTime.UtcNow,
-                status: OrderStatus.New,
-                paymentStatus: OrderPaymentStatus.Waiting,
-                null
-            );
-            await _service.CreateOrder(order);
-            return Ok(order.Id);
+            var response = await _service.CreateOrder(request);
+            return Ok(response);
         }
     }
 }

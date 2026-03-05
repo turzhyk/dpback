@@ -5,6 +5,7 @@ using DPBack.Application.Services;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Repositories;
+using DPBack.Infrastructure.Seeder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,8 +59,13 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddSingleton<TokenProvider>();
-
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var userDb = scope.ServiceProvider.GetRequiredService<UserStoreDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<PasswordHasher<User>>();
+    await UserSeeder.SeedAsync(userDb, passwordHasher);
+}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

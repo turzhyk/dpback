@@ -6,15 +6,16 @@ namespace DPBack.Domain.Models
 {
     public enum OrderStatus
     {
-        New,
-        InfoNeeded,
-        InProgress,
-        WaitingForShipping,
-        InDelivery,
-        Done,
-        Cancelled
+        New,                // заказ создан
+        InfoNeeded,         // требуется уточнение у клиента
+        InProgress,         // оператор работает
+        Produced,           // продукция изготовлена
+        Packing,            // упаковка
+        ReadyForShipping,   // готов к отправке
+        InDelivery,         // у курьера
+        Done,               // доставлено
+        Cancelled           // отменено
     }
-
     public enum OrderPaymentStatus
     {
         Waiting,
