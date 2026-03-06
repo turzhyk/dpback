@@ -63,7 +63,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var userDb = scope.ServiceProvider.GetRequiredService<UserStoreDbContext>();
-    var passwordHasher = scope.ServiceProvider.GetRequiredService<PasswordHasher<User>>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
     await UserSeeder.SeedAsync(userDb, passwordHasher);
 }
 if (app.Environment.IsDevelopment())

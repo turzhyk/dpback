@@ -44,11 +44,13 @@ namespace DPBack.Infrastructure.Repositories
             }).ToList();
             var order = Order.Create(
                 orderEntity.Id,
+                orderEntity.OrderNumber,
                 orderEntity.Descriprion,
                 orderEntity.TotalPrice,
                 items,
                 orderEntity.AssignedTo,
                 orderEntity.CreatedAt,
+                    orderEntity.IsSuspended,
                 orderEntity.Status,
                 orderEntity.PaymentStatus,
                 history
@@ -88,11 +90,13 @@ namespace DPBack.Infrastructure.Repositories
                     }).ToList();
                     return Order.Create(
                         o.Id,
+                        o.OrderNumber,
                         o.Descriprion,
                         o.TotalPrice,
                         items,
                         o.AssignedTo,
                         o.CreatedAt,
+                        o.IsSuspended,
                         o.Status,
                         o.PaymentStatus,
                         history
@@ -124,7 +128,7 @@ namespace DPBack.Infrastructure.Repositories
             var orderEntity = new OrderEntity
             {
                 Id = order.Id,
-                Descriprion = order.Descriprion,
+                Descriprion = order.Description,
                 TotalPrice = order.TotalPrice,
                 AssignedTo = order.AssignedTo,
                 Items = items,

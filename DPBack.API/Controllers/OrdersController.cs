@@ -22,8 +22,7 @@ namespace DPBack.API.Controllers
             _priceCalcService = priceCalcService;
         }
         
-        [HttpGet]
-        [Authorize]
+        [HttpGet("get")]
         public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
         {
             var orders = await _service.GetAllOrders();
@@ -31,7 +30,8 @@ namespace DPBack.API.Controllers
                 new OrdersResponse
                 {
                     id = o.Id,
-                    Desc = o.Descriprion,
+                    OrderNumber = o.OrderNumber,
+                    Desc = o.Description,
                     Price = o.TotalPrice,
                     Items = o.Items.Select(i => new OrderItemResponse
                     {
@@ -47,6 +47,7 @@ namespace DPBack.API.Controllers
                     }).ToList(),
                     AssignedTo = o.AssignedTo,
                     CreatedAt = o.CreatedAt,
+                    IsSuspended = o.IsSuspended,
                     Status = o.Status,
                     PaymentStatus = o.PaymentStatus
                 });
@@ -78,7 +79,7 @@ namespace DPBack.API.Controllers
         {
            return  await _priceCalcService.CalculatePrice(request);
         }
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<Guid>> CreateOrder([FromBody] OrdersRequest request)
         {
             var response = await _service.CreateOrder(request);

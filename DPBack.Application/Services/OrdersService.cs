@@ -36,11 +36,13 @@ namespace DPBack.Application.Services
             }).ToList();
             var (order, error) = Order.Create(
                 Guid.NewGuid(),
+                0,
                 request.Desc,
                 request.Price,
                 items,
                 "",
                 DateTime.UtcNow,
+                false,
                 status: OrderStatus.New,
                 paymentStatus: OrderPaymentStatus.Waiting,
                 null

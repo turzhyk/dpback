@@ -13,6 +13,15 @@ namespace DPBack.Infrastructure.Contexts
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<OrderItemEntity> OrderItems { get; set; }
         public DbSet<OrderHistoryElementEntity> OrderStatusHistories { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasSequence<int>("OrderNumbers")
+                .StartsAt(10001)
+                .IncrementsBy(1);
 
+            modelBuilder.Entity<OrderEntity>()
+                .Property(o => o.OrderNumber)
+                .HasDefaultValueSql("nextval('\"OrderNumbers\"')");
+        }
     }
 }

@@ -17,5 +17,8 @@
       <ProjectReference Include="..\DPBack.Application\DPBack.Application.csproj" />
       <ProjectReference Include="..\DPBack.Domain\DPBack.Domain.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Configurations\" />
+    </ItemGroup>
 
 </Project>

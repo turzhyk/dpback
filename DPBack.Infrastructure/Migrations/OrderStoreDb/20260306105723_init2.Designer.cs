@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DPBack.Infrastructure.Migrations.OrderStoreDb
 {
     [DbContext(typeof(OrderStoreDbContext))]
-    [Migration("20260227133857_OrdersInit")]
-    partial class OrdersInit
+    [Migration("20260306105723_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,9 +72,8 @@ namespace DPBack.Infrastructure.Migrations.OrderStoreDb
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DPBack.Infrastructure.Migrations.OrderStoreDb
 {
     /// <inheritdoc />
-    public partial class OrdersInit : Migration
+    public partial class init2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,7 +56,7 @@ namespace DPBack.Infrastructure.Migrations.OrderStoreDb
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     AuthorLogin = table.Column<string>(type: "text", nullable: false)
                 },
