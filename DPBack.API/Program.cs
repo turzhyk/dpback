@@ -30,12 +30,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateActor = false,
-        ValidateLifetime = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("5ab418f6-5d62-4ae7-8afe-a38c73c72a1e"))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("5ab418f6-5d62-4ae7-8afe-a38c73c72a1e")),
+        ValidAudience = "dp-admin",
+        ValidIssuer = "dp-api",
     };
 });
 builder.Services.AddAuthorization();

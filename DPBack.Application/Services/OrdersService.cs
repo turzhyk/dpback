@@ -65,7 +65,7 @@ namespace DPBack.Application.Services
                 if (order.Status == OrderStatus.Done)
                     throw new Exception("Cannot change status of DONE order");
                 
-                var newAuthor = newStatus == OrderStatus.InProgress? author : null;
+                var newAuthor = newStatus == OrderStatus.InProgress? author : "";
                 await _repo.ChangeStatus(orderId, author, newStatus, newAuthor);
             }
             catch

@@ -4198,19 +4198,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\New\\.nuget\\packages\\": {}
+    "/Users/ricardo/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.API\\DPBack.API.csproj",
+      "projectUniqueName": "/Users/ricardo/RiderProjects/dpback/DPBack.API/DPBack.API.csproj",
       "projectName": "DPBack.API",
-      "projectPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.API\\DPBack.API.csproj",
-      "packagesPath": "C:\\Users\\New\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.API\\obj\\",
+      "projectPath": "/Users/ricardo/RiderProjects/dpback/DPBack.API/DPBack.API.csproj",
+      "packagesPath": "/Users/ricardo/.nuget/packages/",
+      "outputPath": "/Users/ricardo/RiderProjects/dpback/DPBack.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\New\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/ricardo/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4222,11 +4222,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Application\\DPBack.Application.csproj": {
-              "projectPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Application\\DPBack.Application.csproj"
+            "/Users/ricardo/RiderProjects/dpback/DPBack.Application/DPBack.Application.csproj": {
+              "projectPath": "/Users/ricardo/RiderProjects/dpback/DPBack.Application/DPBack.Application.csproj"
             },
-            "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Infrastructure\\DPBack.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Infrastructure\\DPBack.Infrastructure.csproj"
+            "/Users/ricardo/RiderProjects/dpback/DPBack.Infrastructure/DPBack.Infrastructure.csproj": {
+              "projectPath": "/Users/ricardo/RiderProjects/dpback/DPBack.Infrastructure/DPBack.Infrastructure.csproj"
             }
           }
         }
@@ -4240,7 +4240,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -4284,7 +4285,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.418/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

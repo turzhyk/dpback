@@ -23,6 +23,7 @@ namespace DPBack.API.Controllers
         }
         
         [HttpGet("get")]
+        [Authorize(Roles = "Admin, Worker")]
         public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
         {
             var orders = await _service.GetAllOrders();

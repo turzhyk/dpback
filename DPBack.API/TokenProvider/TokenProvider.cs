@@ -25,10 +25,10 @@ public class TokenProvider
                 new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             ]),
-            // Expires = DateTime.UtcNow.AddDays(7),
+            Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = credentials,
-            Issuer = "",
-            Audience = "",
+            Issuer = "dp-api",
+            Audience = "dp-admin",
         };
         var handler = new JsonWebTokenHandler();
         string token = handler.CreateToken(tokenDescriptor);
