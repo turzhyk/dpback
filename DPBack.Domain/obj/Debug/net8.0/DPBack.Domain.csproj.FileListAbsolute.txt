@@ -22,3 +22,15 @@ C:/Users/New/RiderProjects/DPBack.API/DPBack.Domain/obj/Debug/net8.0/ref/DPBack.
 /Users/ricardo/RiderProjects/dpback/DPBack.Domain/obj/Debug/net8.0/refint/DPBack.Domain.dll
 /Users/ricardo/RiderProjects/dpback/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.pdb
 /Users/ricardo/RiderProjects/dpback/DPBack.Domain/obj/Debug/net8.0/ref/DPBack.Domain.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\bin\Debug\net8.0\DPBack.Domain.deps.json
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\bin\Debug\net8.0\DPBack.Domain.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\bin\Debug\net8.0\DPBack.Domain.pdb
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.AssemblyInfoInputs.cache
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.AssemblyInfo.cs
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.csproj.CoreCompileInputs.cache
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.sourcelink.json
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\refint\DPBack.Domain.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\DPBack.Domain.pdb
+C:\Users\New\RiderProjects\DPBack.API\DPBack.Domain\obj\Debug\net8.0\ref\DPBack.Domain.dll

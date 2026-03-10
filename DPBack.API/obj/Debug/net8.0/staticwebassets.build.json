@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"agoJFyzZr/Xp0xDUKkVkkySO/NhlIBqgToPrrNaI4as=","Source":"DPBack.API","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "jiV8y+F6hZw7p84Sssyu8m0bfxCYczEDbrVwDsUxWQY=",
+  "Source": "DPBack.API",
+  "BasePath": "_content/DPBack.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

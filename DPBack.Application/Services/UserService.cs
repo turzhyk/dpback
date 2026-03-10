@@ -10,7 +10,7 @@ namespace DPBack.Application.Services;
 
 public class UserService : IUserService
 {
-    public readonly IUsersRepository _repo;
+    private readonly IUsersRepository _repo;
     private readonly IPasswordHasher<User> _passwordHasher;
 
     public UserService(IUsersRepository repo, IPasswordHasher<User> passwordHasher)

@@ -18,10 +18,12 @@ namespace DPBack.API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _service;
+    private readonly IConfiguration _configuration;
 
-    public UsersController(IUserService service)
+    public UsersController(IUserService service, IConfiguration configuration)
     {
         _service = service;
+        _configuration = configuration;
     }
     
     [HttpPost]
@@ -37,12 +39,12 @@ public class UsersController : ControllerBase
     {
         var user = await _service.GetByEmail(request.Login);
         if(user == null)
-            throw new Exception("user not found");
+            return BadRequest($"User not found");
         
         var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
         if(result != PasswordVerificationResult.Success)
             return Unauthorized();
-        var token = tokenProvider.Create(user);
+        var token = tokenProvider.Create(user, _configuration);
         return Ok(token);
     }
 
@@ -53,7 +55,7 @@ public class UsersController : ControllerBase
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (userId == null)
         {
-            throw new Exception("no active user found");
+            return BadRequest($"User {userId} not found");
         }
         var result = await  _service.GetAdressesByUserId(new Guid(userId));
         return Ok(result);
@@ -65,8 +67,7 @@ public class UsersController : ControllerBase
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (userId == null)
         {
-            throw new Exception("no active user found");
-            // return NotFound();
+            return BadRequest($"User {userId} not found");
         }
 
         await _service.AddUserAdress(userId, request);

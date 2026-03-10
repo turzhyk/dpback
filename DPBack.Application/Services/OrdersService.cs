@@ -2,31 +2,44 @@
 using DPBack.Application.Interfaces;
 using DPBack.Domain.Models;
 
-// private static readonly Dictionary<OrderStatus, OrderStatus[]> AllowedTransitions =
-//     new()
-//     {
-//         { OrderStatus.New, new [] { OrderStatus.InProgress, OrderStatus.Cancelled } },
-//         { OrderStatus.InProgress, new [] { OrderStatus.InfoNeeded, OrderStatus.Produced, OrderStatus.Cancelled } },
-//         { OrderStatus.Produced, new [] { OrderStatus.Packing } },
-//         { OrderStatus.Packing, new [] { OrderStatus.ReadyForShipping } },
-//         { OrderStatus.ReadyForShipping, new [] { OrderStatus.InDelivery } },
-//         { OrderStatus.InDelivery, new [] { OrderStatus.Done } }
-//     };
-// if (!AllowedTransitions[order.Status].Contains(newStatus))
-//     throw new InvalidOperationException($"Cannot change status from {order.Status} to {newStatus}");
+
 namespace DPBack.Application.Services
 {
+    
     public class OrdersService : IOrdersService
+    
     {
-        private readonly IOrdersRepository _repo;
+        public static readonly Dictionary<OrderStatus, OrderStatus[]> AllowedTransitions = new()
+        {
+            { OrderStatus.New, new[] { OrderStatus.InProgress, OrderStatus.Cancelled } },
+            {
+                OrderStatus.InProgress, new[]
 
-        public OrdersService(IOrdersRepository ordersRepo)
+                    { OrderStatus.Produced, OrderStatus.InProgress }
+            },
+            {
+                OrderStatus.Produced, new[] { OrderStatus.Packing, OrderStatus.ReadyForShipping }
+            },
+            {
+                OrderStatus.Packing, new[] { OrderStatus.ReadyForShipping }
+            },
+            { OrderStatus.ReadyForShipping, new[] { OrderStatus.InDelivery } },
+            { OrderStatus.InDelivery, new[] { OrderStatus.Done } },
+            { OrderStatus.Done , []}
+        };
+        private readonly IOrdersRepository _repo;
+        private readonly IPaymentService _paymentService;
+
+        public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService)
         {
             _repo = ordersRepo;
+            _paymentService = paymentService;
         }
 
         public async Task<List<Order>> GetAllOrders() => await _repo.GetAll();
-        public async Task<Guid> CreateOrder(OrdersRequest request) {
+
+        public async Task<CreateOrderResponseDto> CreateOrder(OrdersRequest request)
+        {
             var items = request.Items.Select(i => new OrderItem
             {
                 Id = Guid.NewGuid(),
@@ -47,32 +60,27 @@ namespace DPBack.Application.Services
                 paymentStatus: OrderPaymentStatus.Waiting,
                 null
             );
-          return  await _repo.Create(order);
+            await _repo.Create(order);
+            var paymentUrl = await _paymentService.CreatePayment(order.Id.ToString());
+            return new CreateOrderResponseDto{OrderId = order.Id.ToString(), PaymentUrl = paymentUrl};
         }
 
         public async Task ChangeStatus(Guid orderId, string author, OrderStatus newStatus)
         {
-            try
-            {
-
-                if (newStatus == OrderStatus.New)
-                    throw new Exception("Cannot set order status to NEW");
                 var order = await _repo.GetWithId(orderId);
-                if(order == null)
-                    throw new Exception("Order not found");
-                if (order.Status == OrderStatus.InDelivery && newStatus != OrderStatus.Done)
-                    throw new Exception("Cannot change status of order that is already in delivery");
-                if (order.Status == OrderStatus.Done)
-                    throw new Exception("Cannot change status of DONE order");
-                
-                var newAuthor = newStatus == OrderStatus.InProgress? author : "";
-                await _repo.ChangeStatus(orderId, author, newStatus, newAuthor);
-            }
-            catch
-            {
-                
-            }
+                if (order.AssignedTo != author)
+                    throw new Exception("Can't modify order that is assigned to another worker");
+                if (AllowedTransitions[order.Status].Contains(newStatus))
+                {
+                    var newAuthor = newStatus == OrderStatus.InProgress ? author : "";
+                    await _repo.ChangeStatus(orderId, author, newStatus, newAuthor);
+                }
+                else
+                {
+                    throw new Exception("");
+                }
         }
+
         public async Task AssignToAsync(Guid orderId, string author)
         {
             await _repo.AssignOrderWithStatus(
@@ -85,6 +93,5 @@ namespace DPBack.Application.Services
                     ChangedAt = DateTime.UtcNow
                 });
         }
-
     }
 }

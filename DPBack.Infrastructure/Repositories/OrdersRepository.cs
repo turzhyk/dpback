@@ -16,6 +16,40 @@ namespace DPBack.Infrastructure.Repositories
             _context = context;
         }
 
+        private static Order MapToOrder(OrderEntity e)
+        {
+            var items = e.Items.Select(i => new OrderItem
+            {
+                Id = i.Id,
+                Quantity = i.Quantity,
+                Type = i.Type,
+                Options = i.Options
+            }).ToList();
+            var history = e.History.Select(h => new OrderHistoryElement
+            {
+                Id = h.Id,
+                Status = h.Status,
+                ChangedAt = h.ChangedAt,
+                AuthorLogin = h.AuthorLogin,
+                OrderId = e.Id
+            }).ToList();
+            var order = Order.Create(
+                e.Id,
+                e.OrderNumber,
+                e.Descriprion,
+                e.TotalPrice,
+                items,
+                e.AssignedTo,
+                e.CreatedAt,
+                e.IsSuspended,
+                e.Status,
+                e.PaymentStatus,
+                history
+            ).Order;
+
+
+            return order;
+        }
         public async Task<Order> GetWithId(Guid id)
         {
             var orderEntity =
@@ -27,37 +61,7 @@ namespace DPBack.Infrastructure.Repositories
                     .FirstOrDefaultAsync();
             if (orderEntity == null)
                 throw new Exception($"Order with id {id} not found");
-            var items = orderEntity.Items.Select(i => new OrderItem
-            {
-                Id = i.Id,
-                Quantity = i.Quantity,
-                Type = i.Type,
-                Options = i.Options
-            }).ToList();
-            var history = orderEntity.History.Select(h => new OrderHistoryElement
-            {
-                Id = h.Id,
-                Status = h.Status,
-                ChangedAt = h.ChangedAt,
-                AuthorLogin = h.AuthorLogin,
-                OrderId = orderEntity.Id
-            }).ToList();
-            var order = Order.Create(
-                orderEntity.Id,
-                orderEntity.OrderNumber,
-                orderEntity.Descriprion,
-                orderEntity.TotalPrice,
-                items,
-                orderEntity.AssignedTo,
-                orderEntity.CreatedAt,
-                    orderEntity.IsSuspended,
-                orderEntity.Status,
-                orderEntity.PaymentStatus,
-                history
-            ).Order;
-
-
-            return order;
+            return MapToOrder(orderEntity);
         }
 
         public async Task<List<Order>> GetAll()
@@ -71,39 +75,8 @@ namespace DPBack.Infrastructure.Repositories
                     .OrderByDescending(x => x.CreatedAt)
                     .ToListAsync();
 
-            var orders = orderEntities.Select(o =>
-                {
-                    var items = o.Items.Select(i => new OrderItem
-                    {
-                        Id = i.Id,
-                        Quantity = i.Quantity,
-                        Type = i.Type,
-                        Options = i.Options
-                    }).ToList();
-                    var history = o.History.Select(h => new OrderHistoryElement
-                    {
-                        Id = h.Id,
-                        Status = h.Status,
-                        ChangedAt = h.ChangedAt,
-                        AuthorLogin = h.AuthorLogin,
-                        OrderId = o.Id
-                    }).ToList();
-                    return Order.Create(
-                        o.Id,
-                        o.OrderNumber,
-                        o.Descriprion,
-                        o.TotalPrice,
-                        items,
-                        o.AssignedTo,
-                        o.CreatedAt,
-                        o.IsSuspended,
-                        o.Status,
-                        o.PaymentStatus,
-                        history
-                    ).Order;
-                })
-                .ToList();
-            return orders;
+
+            return orderEntities.Select(MapToOrder).ToList();
         }
 
         public async Task<Guid> Create(Order order)

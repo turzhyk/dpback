@@ -81,7 +81,7 @@ namespace DPBack.API.Controllers
            return  await _priceCalcService.CalculatePrice(request);
         }
         [HttpPost("create")]
-        public async Task<ActionResult<Guid>> CreateOrder([FromBody] OrdersRequest request)
+        public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] OrdersRequest request)
         {
             var response = await _service.CreateOrder(request);
             return Ok(response);

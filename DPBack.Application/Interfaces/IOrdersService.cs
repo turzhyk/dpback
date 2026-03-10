@@ -7,7 +7,7 @@ namespace DPBack.Application.Interfaces
 {
     public interface IOrdersService
     {
-        Task<Guid> CreateOrder(OrdersRequest order);
+        Task<CreateOrderResponseDto> CreateOrder(OrdersRequest order);
         Task<List<Order>> GetAllOrders();
         Task AssignToAsync(Guid orderId, string author);
 

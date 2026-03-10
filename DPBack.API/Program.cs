@@ -1,4 +1,5 @@
 using System.Text;
+using DPBack.API.PayU;
 using DPBack.API.TockenProvider;
 using DPBack.Application.Interfaces;
 using DPBack.Application.Services;
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+IConfiguration configuration = builder.Configuration;
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -35,9 +36,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateActor = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("5ab418f6-5d62-4ae7-8afe-a38c73c72a1e")),
-        ValidAudience = "dp-admin",
-        ValidIssuer = "dp-api",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+        ValidAudience = configuration["JWT:Audience"],
+        ValidIssuer = configuration["JWT:Issuer"],
     };
 });
 builder.Services.AddAuthorization();
@@ -60,13 +61,18 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+builder.Services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
+builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
+{
+    client.BaseAddress = new Uri("https://secure.snd.payu.com");
+});
 builder.Services.AddSingleton<TokenProvider>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var userDb = scope.ServiceProvider.GetRequiredService<UserStoreDbContext>();
     var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
-    await UserSeeder.SeedAsync(userDb, passwordHasher);
+    await UserSeeder.SeedAsync(userDb, passwordHasher, configuration);
 }
 if (app.Environment.IsDevelopment())
 {

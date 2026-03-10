@@ -10,9 +10,9 @@ namespace DPBack.API.TockenProvider;
 
 public class TokenProvider
 {
-    public string Create(User user)
+    public string Create(User user, IConfiguration configuration)
     {
-        string secretKey = "5ab418f6-5d62-4ae7-8afe-a38c73c72a1e";
+        string secretKey = configuration["JWT:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -25,10 +25,10 @@ public class TokenProvider
                 new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             ]),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Expires = DateTime.UtcNow.AddHours(configuration.GetValue<int>("JWT:TokenLifetimeInHours")),
             SigningCredentials = credentials,
-            Issuer = "dp-api",
-            Audience = "dp-admin",
+            Issuer = configuration["JWT:Issuer"],
+            Audience = configuration["JWT:Audience"],
         };
         var handler = new JsonWebTokenHandler();
         string token = handler.CreateToken(tokenDescriptor);
