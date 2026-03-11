@@ -397,3 +397,5 @@ C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\refint\DPBack.
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.pdb
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\DPBack.API.genruntimeconfig.cache
 C:\Users\New\RiderProjects\DPBack.API\DPBack.API\obj\Debug\net8.0\ref\DPBack.API.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\New\RiderProjects\DPBack.API\DPBack.API\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

@@ -61,6 +61,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+
 builder.Services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
 builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
 {

@@ -12,6 +12,8 @@ namespace DPBack.Application.Interfaces
         Task Update(Order order);
         Task<Guid> Update(Guid id, string description, decimal price, string assignedTo);
         Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor);
+        Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status);
+        Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId);
         Task AssignOrderWithStatus(
             Guid orderId,
             string author,

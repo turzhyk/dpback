@@ -50,6 +50,7 @@ namespace DPBack.Infrastructure.Repositories
 
             return order;
         }
+
         public async Task<Order> GetWithId(Guid id)
         {
             var orderEntity =
@@ -115,7 +116,27 @@ namespace DPBack.Infrastructure.Repositories
             return order.Id;
         }
 
-        public async Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor)
+        public async Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
+            if (order == null)
+                throw new Exception($"No order found with id {orderId}");
+            order.PaymentStatus = status;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId)
+        {
+            var order = await _context.Orders.AsNoTracking()
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+            if (order == null)
+                throw new Exception($"No order found with id {orderId}");
+            return order.PaymentStatus;
+        }
+    
+    
+
+    public async Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor)
         {
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.Id == orderId);

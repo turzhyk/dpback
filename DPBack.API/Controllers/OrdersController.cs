@@ -1,8 +1,6 @@
-﻿
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using DPBack.Application.Contracts;
 using DPBack.Application.Interfaces;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +8,6 @@ namespace DPBack.API.Controllers
 {
     [ApiController]
     [Route("api/orders")]
-    
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersService _service;
@@ -21,7 +18,7 @@ namespace DPBack.API.Controllers
             _service = service;
             _priceCalcService = priceCalcService;
         }
-        
+
         [HttpGet("get")]
         [Authorize(Roles = "Admin, Worker")]
         public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
@@ -62,15 +59,17 @@ namespace DPBack.API.Controllers
             await _service.AssignToAsync(id, request.AuthorLogin);
             return Ok();
         }
+
         [HttpPost("{id}/setStatus")]
         [Authorize]
-        public async Task<ActionResult> ChangeOrderStatus(Guid id,[FromBody] ChangeOrderStatusRequestDto request)
+        public async Task<ActionResult> ChangeOrderStatus(Guid id, [FromBody] ChangeOrderStatusRequestDto request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
             {
                 throw new Exception("no active user found");
             }
+
             await _service.ChangeStatus(id, userId, request.Status);
             return Ok();
         }
@@ -78,12 +77,22 @@ namespace DPBack.API.Controllers
         [HttpPost("getPrice")]
         public async Task<ActionResult<PriceResultDto>> GetPricePerUnit([FromBody] GetPriceDto request)
         {
-           return  await _priceCalcService.CalculatePrice(request);
+            return await _priceCalcService.CalculatePrice(request);
         }
+
         [HttpPost("create")]
         public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] OrdersRequest request)
         {
             var response = await _service.CreateOrder(request);
+            return Ok(response);
+        }
+
+        [HttpGet("{orderId}/status")]
+        public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(string orderId)
+        {
+            var status = await _service.GetOrderStatus(new Guid(orderId));
+            var response = new GetOrderPaymentStatusDto
+                { PaymentStatus = status };
             return Ok(response);
         }
     }

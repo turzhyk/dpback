@@ -36,7 +36,8 @@ public class PayUService : IPaymentService
 
         var payuOrder = new
         {
-            notifyUrl = "https://api.site.com/api/payments/notify",
+            continueUrl =$"http://localhost:3000/payment/{orderId}/status",
+            notifyUrl = "https://nontheologically-catapultic-everett.ngrok-free.dev/api/payments/notify",
             customerIp = "127.0.0.1",
             merchantPosId = "300746",
             description ="test order",
