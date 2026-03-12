@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+188be7d4796c35785919ec30b192f220a1b75c38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08cde0e2da6f30fe5d4ac91218bb0e6412df9512")]
 [assembly: System.Reflection.AssemblyProductAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

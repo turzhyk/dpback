@@ -8,10 +8,11 @@ public class PayUTokenProvider:IPaymentTokenProvider
 {
     private string? _token;
     private DateTime _expires;
+    private readonly IConfiguration _configuration;
 
-    public PayUTokenProvider()
+    public PayUTokenProvider(IConfiguration configuration)
     {
-        
+        _configuration = configuration;
     }
 
     public async Task<string> GetToken()
@@ -24,8 +25,8 @@ public class PayUTokenProvider:IPaymentTokenProvider
         var values = new Dictionary<string, string>
         {
             { "grant_type", "client_credentials" },
-            { "client_id",  "300746"},
-            { "client_secret", "2ee86a66e5d97e3fadc400c9f19b065d"}
+            { "client_id",  _configuration["PayU:ClientId"]},
+            { "client_secret", _configuration["PayU:Secret"]}
         };
 
         var content = new FormUrlEncodedContent(values);

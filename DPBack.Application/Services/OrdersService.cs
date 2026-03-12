@@ -90,6 +90,14 @@ namespace DPBack.Application.Services
             }
         }
 
+        public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId)
+        {
+            var order = await _repo.GetWithId(orderId);
+            if (order ==null)
+                throw new Exception("Can't modify order that is assigned to another worker");
+            return order.PaymentStatus;
+
+        }
         public async Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status)
         {
             await _repo.SetPaymentStatus(orderId, status);

@@ -1,6 +1,7 @@
 using System.Text;
 using DPBack.API.PayU;
 using DPBack.API.TockenProvider;
+using DPBack.Application.Commands;
 using DPBack.Application.Interfaces;
 using DPBack.Application.Services;
 using DPBack.Domain.Models;
@@ -60,6 +61,7 @@ builder.Services.AddScoped<IPriceCalcService, PriceCalcService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<PaymentCommands>();
 
 
 builder.Services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
@@ -67,6 +69,7 @@ builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
 {
     client.BaseAddress = new Uri("https://secure.snd.payu.com");
 });
+
 builder.Services.AddSingleton<TokenProvider>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
