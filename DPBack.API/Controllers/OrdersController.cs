@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using DPBack.Application.Contracts;
-using DPBack.Application.Interfaces;
+using DPBack.Application.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

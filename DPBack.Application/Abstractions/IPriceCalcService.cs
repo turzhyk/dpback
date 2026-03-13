@@ -2,7 +2,7 @@
 
 using DPBack.Application.Contracts;
 
-namespace DPBack.Application.Interfaces;
+namespace DPBack.Application.Abstractions;
 
 public interface IPriceCalcService
 {

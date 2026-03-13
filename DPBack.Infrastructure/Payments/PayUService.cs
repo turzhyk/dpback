@@ -2,10 +2,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using DPBack.Application.Contracts;
-using DPBack.Application.Interfaces;
+using DPBack.Application.Abstractions;
 using Microsoft.Extensions.Configuration;
 
-namespace DPBack.Application.Services;
+namespace DPBack.Infrastructure.Payments;
 
 public class PayUService : IPaymentService
 {
@@ -15,7 +15,7 @@ public class PayUService : IPaymentService
 
     public PayUService(IPaymentTokenProvider tokenProvider, HttpClient client, IConfiguration configuration)
     {
-        _tokenProvider = tokenProvider;
+        _tokenProvider = tokenProvider; 
         _client = client;
         _configuration = configuration;
     }

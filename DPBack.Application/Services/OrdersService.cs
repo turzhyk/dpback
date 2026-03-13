@@ -1,5 +1,6 @@
-﻿using DPBack.Application.Contracts;
-using DPBack.Application.Interfaces;
+﻿using DPBack.Application.Abstractions;
+using DPBack.Application.Contracts;
+
 
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.SignalR;

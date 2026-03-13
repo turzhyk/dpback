@@ -27,6 +27,13 @@ public static class UserSeeder
             var entity = new UserEntity(worker.Id, worker.Login, password, worker.Email, worker.Role, worker.CreatedAt);
             context.Users.Add(entity);
         }
+        if (!context.Users.Any(x => x.Login == "customer1"))
+        {
+            var customer = new User(Guid.NewGuid(), "customer1", "", "customer1@local", UserRole.User, DateTime.UtcNow);
+            var password = passwordHasher.HashPassword(customer, configuration["Accounts:BaseCustomerPassword"]??"xxxx");
+            var entity = new UserEntity(customer.Id, customer.Login, password, customer.Email, customer.Role, customer.CreatedAt);
+            context.Users.Add(entity);
+        }
 
         await context.SaveChangesAsync();
     }

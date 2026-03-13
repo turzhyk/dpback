@@ -1,13 +1,15 @@
 using System.Text;
 using DPBack.API.PayU;
 using DPBack.API.TockenProvider;
+using DPBack.Application.Abstractions;
 using DPBack.Application.Commands;
-using DPBack.Application.Interfaces;
 using DPBack.Application.Services;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
+using DPBack.Infrastructure.Payments;
 using DPBack.Infrastructure.Repositories;
 using DPBack.Infrastructure.Seeder;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +72,8 @@ builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
     client.BaseAddress = new Uri("https://secure.snd.payu.com");
 });
 
-builder.Services.AddSingleton<TokenProvider>();
+builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -85,7 +88,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-// app.MapGet("/", () => "Hello World!");
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

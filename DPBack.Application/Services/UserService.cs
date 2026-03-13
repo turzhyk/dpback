@@ -1,6 +1,7 @@
 
+using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
-using DPBack.Application.Interfaces;
+
 using DPBack.Application.Validators;
 using DPBack.Domain.Enums;
 using DPBack.Domain.Models;

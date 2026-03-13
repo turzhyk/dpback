@@ -3,16 +3,23 @@ using System.Text;
 using DPBack.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
+using DPBack.Application.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace DPBack.API.TockenProvider;
 
-
-public class TokenProvider
+public class TokenProvider : ITokenProvider
 {
-    public string Create(User user, IConfiguration configuration)
+    private readonly IConfiguration _configuration;
+
+    public TokenProvider(IConfiguration configuration)
     {
-        string secretKey = configuration["JWT:Secret"];
+        _configuration = configuration;
+    }
+
+    public string Create(User user)
+    {
+        string secretKey = _configuration["JWT:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -25,10 +32,11 @@ public class TokenProvider
                 new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             ]),
-            Expires = DateTime.UtcNow.AddHours(configuration.GetValue<int>("JWT:TokenLifetimeInHours")),
+
+            Expires = DateTime.UtcNow.AddHours(int.Parse(_configuration["JWT:TokenLifetimeInHours"])),
             SigningCredentials = credentials,
-            Issuer = configuration["JWT:Issuer"],
-            Audience = configuration["JWT:Audience"],
+            Issuer = _configuration["JWT:Issuer"],
+            Audience = _configuration["JWT:Audience"],
         };
         var handler = new JsonWebTokenHandler();
         string token = handler.CreateToken(tokenDescriptor);

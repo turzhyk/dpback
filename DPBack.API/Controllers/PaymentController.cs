@@ -1,7 +1,7 @@
 using System.Text.Json;
 using DPBack.Application.Contracts;
 using DPBack.Application.Features;
-using DPBack.Application.Interfaces;
+using DPBack.Application.Abstractions;
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 

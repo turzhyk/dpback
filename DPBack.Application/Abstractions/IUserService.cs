@@ -2,7 +2,7 @@ using DPBack.Application.Contracts;
 using DPBack.Domain.Models;
 
 
-namespace DPBack.Application.Interfaces;
+namespace DPBack.Application.Abstractions;
 
 public interface IUserService
 {

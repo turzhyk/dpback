@@ -1919,7 +1919,9 @@
           "DPBack.Application": "1.0.0",
           "DPBack.Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.4",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
+          "Microsoft.IdentityModel.Tokens": "7.1.2",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
+          "System.IdentityModel.Tokens.Jwt": "7.1.2"
         },
         "compile": {
           "bin/placeholder/DPBack.Infrastructure.dll": {}

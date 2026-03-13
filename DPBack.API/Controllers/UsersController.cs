@@ -2,14 +2,12 @@
 using System.Security.Claims;
 using DPBack.API.TockenProvider;
 using DPBack.Application.Contracts;
-using DPBack.Application.Interfaces;
-using DPBack.Application.Validators;
-using DPBack.Domain.Enums;
+using DPBack.Application.Abstractions;
+
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using DPBack.Application.Validators;
 
 namespace DPBack.API.Controllers;
 
@@ -44,7 +42,7 @@ public class UsersController : ControllerBase
         var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
         if(result != PasswordVerificationResult.Success)
             return Unauthorized();
-        var token = tokenProvider.Create(user, _configuration);
+        var token = tokenProvider.Create(user);
         return Ok(token);
     }
 

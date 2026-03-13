@@ -1,4 +1,4 @@
-using DPBack.Application.Interfaces;
+using DPBack.Application.Abstractions;
 
 namespace DPBack.Application.Commands;
 

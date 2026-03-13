@@ -1,4 +1,4 @@
-namespace DPBack.Application.Interfaces;
+namespace DPBack.Application.Abstractions;
 
 public interface IPaymentTokenProvider
 {
