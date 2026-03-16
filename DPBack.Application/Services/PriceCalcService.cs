@@ -4,7 +4,6 @@ using DPBack.Application.Contracts;
 using DPBack.Application.PricingConfigurations;
 using DPBack.Domain.Enums;
 
-
 namespace DPBack.Application.Services;
 
 public class PriceCalcService : IPriceCalcService

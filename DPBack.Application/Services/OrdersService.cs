@@ -1,7 +1,5 @@
 ﻿using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
-
-
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.SignalR;
 
@@ -33,6 +31,34 @@ namespace DPBack.Application.Services
         private readonly IOrdersRepository _repo;
         private readonly IPaymentService _paymentService;
 
+        private OrderResponseDto OrderToDto(Order o)
+        {
+            return new OrderResponseDto
+            {
+                id = o.Id,
+                OrderNumber = o.OrderNumber,
+                Desc = o.Description,
+                Price = o.TotalPrice,
+                Items = o.Items.Select(i => new OrderItemResponse
+                {
+                    Quantity = i.Quantity,
+                    Type = i.Type,
+                    Options = i.Options
+                }).ToList(),
+                History = o.History.Select(h => new OrderHistoryElementResponse
+                {
+                    Status = h.Status.ToString(),
+                    ChangedAt = h.ChangedAt,
+                    AuthorId = h.AuthorLogin
+                }).ToList(),
+                AssignedTo = o.AssignedTo,
+                CreatedAt = o.CreatedAt,
+                IsSuspended = o.IsSuspended,
+                Status = o.Status,
+                PaymentStatus = o.PaymentStatus
+            };
+        }
+
         public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService
         )
         {
@@ -46,11 +72,30 @@ namespace DPBack.Application.Services
             return status.ToString();
         }
 
-        public async Task<List<Order>> GetAllOrders() => await _repo.GetAll();
-
-        public async Task<CreateOrderResponseDto> CreateOrder(OrdersRequest request)
+        public async Task<List<OrderResponseDto>> GetAllOrders()
         {
-            var items = request.Items.Select(i => new OrderItem
+            var orders = await _repo.GetAll();
+            var response = orders.Select(o =>
+                OrderToDto(o)).ToList();
+            return response;
+        }
+
+        public async Task<List<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request)
+        {
+            var orders = await _repo.GetAll();
+            var response = orders.Select(o =>
+                OrderToDto(o)).ToList();
+            return response;
+        }
+
+        public async Task<OrderResponseDto> GetOrderById(Guid userId,Guid orderId)
+        {
+            var order = await _repo.GetWithId(orderId);
+            return OrderToDto(order);
+        }
+        public async Task<CreateOrderResponseDto> CreateOrder(CreateOrderRequestDto requestDto)
+        {
+            var items = requestDto.Items.Select(i => new OrderItem
             {
                 Id = Guid.NewGuid(),
                 Quantity = i.Quantity,
@@ -60,8 +105,8 @@ namespace DPBack.Application.Services
             var (order, error) = Order.Create(
                 Guid.NewGuid(),
                 0,
-                request.Desc,
-                request.Price,
+                requestDto.Desc,
+                19,
                 items,
                 "",
                 DateTime.UtcNow,
@@ -94,15 +139,14 @@ namespace DPBack.Application.Services
         public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId)
         {
             var order = await _repo.GetWithId(orderId);
-            if (order ==null)
+            if (order == null)
                 throw new Exception("Can't modify order that is assigned to another worker");
             return order.PaymentStatus;
-
         }
+
         public async Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status)
         {
             await _repo.SetPaymentStatus(orderId, status);
-       
         }
 
         public async Task AssignToAsync(Guid orderId, string author)

@@ -1,10 +1,11 @@
 
 using System.Security.Claims;
-using DPBack.API.TockenProvider;
+
 using DPBack.Application.Contracts;
 using DPBack.Application.Abstractions;
 
 using DPBack.Domain.Models;
+using DPBack.Infrastructure.TockenProvider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,19 @@ namespace DPBack.API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _service;
-    private readonly IConfiguration _configuration;
 
-    public UsersController(IUserService service, IConfiguration configuration)
+    private Guid GetCurrentUserId()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            throw new UnauthorizedAccessException("No active user found");
+        }
+        return Guid.Parse(userId);
+    }
+    public UsersController(IUserService service)
     {
         _service = service;
-        _configuration = configuration;
     }
     
     [HttpPost]
@@ -32,43 +40,48 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> LoginUser([FromBody] UserLoginRequest request,
-        [FromServices] IPasswordHasher<User> passwordHasher, TokenProvider tokenProvider)
+    public async Task<ActionResult<string>> LoginUser([FromBody] UserLoginRequest request)
     {
-        var user = await _service.GetByEmail(request.Login);
-        if(user == null)
-            return BadRequest($"User not found");
-        
-        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-        if(result != PasswordVerificationResult.Success)
-            return Unauthorized();
-        var token = tokenProvider.Create(user);
-        return Ok(token);
+        try
+        {
+            var result = await _service.Login(request);
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
     }
 
     [Authorize]
-    [HttpGet("addessesGet")]
+    [HttpGet("adresses")]
     public async Task<ActionResult<List<UserAddressGetDto>>> GetUserAddresses()
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId == null)
-        {
-            return BadRequest($"User {userId} not found");
-        }
-        var result = await  _service.GetAdressesByUserId(new Guid(userId));
+        var userId = GetCurrentUserId();
+        var result = await  _service.GetAdressesByUserId(userId);
         return Ok(result);
     }
     [Authorize]
-    [HttpPost("adressAdd")]
+    [HttpPost("address")]
     public async Task<ActionResult> AddUserAdress ([FromBody] UserAdressCreateDto request)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId == null)
-        {
-            return BadRequest($"User {userId} not found");
-        }
+        var userId = GetCurrentUserId();
 
         await _service.AddUserAdress(userId, request);
+        return Ok();
+    }
+    [HttpPatch("address/{addressId}")]
+    [Authorize]
+    public async Task<ActionResult> ChangeUserAddress(Guid addressId, [FromBody] UserAdressCreateDto request)
+    {
+        // Implement later
+        return Ok();
+    }
+    [HttpDelete("address/{addressId}")]
+    [Authorize]
+    public async Task<ActionResult> DeleteUserAddress(Guid addressId)
+    {
+        // Implement later
         return Ok();
     }
 }

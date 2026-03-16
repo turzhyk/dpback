@@ -2,9 +2,10 @@
 
     public class UserAddressGetDto
     {
-        public UserAddressGetDto(string country, string city, string street, string buildingNumber,
+        public UserAddressGetDto(Guid id,string country, string city, string street, string buildingNumber,
             string apartmentNumber, string postalCode, string phoneNumber, string email, string options)
         {
+            Id = id;
             Country = country;
             City = city;
             Street = street;
@@ -15,7 +16,7 @@
             Email = email;
             Options = options;
         }
-
+        public Guid Id { get; private set; }
         public string Country { get; private set; }
         public string City { get; private set; }
         public string Street { get; private set; }

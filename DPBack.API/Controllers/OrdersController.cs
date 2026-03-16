@@ -12,85 +12,74 @@ namespace DPBack.API.Controllers
     {
         private readonly IOrdersService _service;
         private readonly IPriceCalcService _priceCalcService;
-
+        private Guid GetCurrentUserId()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException("No active user found");
+            }
+            return Guid.Parse(userId);
+        }
         public OrdersController(IOrdersService service, IPriceCalcService priceCalcService)
         {
             _service = service;
             _priceCalcService = priceCalcService;
         }
 
-        [HttpGet("get")]
+        [HttpGet]
         [Authorize(Roles = "Admin, Worker")]
-        public async Task<ActionResult<List<OrdersResponse>>> GetOrdersAsync()
+        // Use with caution (could be a lot of data)
+        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersAsync()
         {
-            var orders = await _service.GetAllOrders();
-            var response = orders.Select(o =>
-                new OrdersResponse
-                {
-                    id = o.Id,
-                    OrderNumber = o.OrderNumber,
-                    Desc = o.Description,
-                    Price = o.TotalPrice,
-                    Items = o.Items.Select(i => new OrderItemResponse
-                    {
-                        Quantity = i.Quantity,
-                        Type = i.Type,
-                        Options = i.Options
-                    }).ToList(),
-                    History = o.History.Select(h => new OrderHistoryElementResponse
-                    {
-                        Status = h.Status.ToString(),
-                        ChangedAt = h.ChangedAt,
-                        AuthorId = h.AuthorLogin
-                    }).ToList(),
-                    AssignedTo = o.AssignedTo,
-                    CreatedAt = o.CreatedAt,
-                    IsSuspended = o.IsSuspended,
-                    Status = o.Status,
-                    PaymentStatus = o.PaymentStatus
-                });
-            return Ok(response);
+            var result = await _service.GetAllOrders();
+            
+            return Ok(result);
         }
 
-        [HttpPost("{id}/assign")]
+        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersFiltered(OrdersFilteredRequestDto request)
+        {
+            return Ok();
+        }
+        [HttpGet("{id}")]
         [Authorize]
+        public async Task<ActionResult<OrderResponseDto>> GetOrderByIdAsync(Guid orderId)
+        {
+            var userId = GetCurrentUserId();
+            var result = await _service.GetOrderById(userId,orderId);
+            return Ok(result);
+        }
+        [HttpPut("{id}/assigned")]
+        [Authorize(Roles = "Admin, Worker")]
         public async Task<ActionResult> AssignOrderTo(Guid id, [FromBody] AssignOrderRequest request)
         {
             await _service.AssignToAsync(id, request.AuthorLogin);
             return Ok();
         }
 
-        [HttpPost("{id}/setStatus")]
-        [Authorize]
+        [HttpPut("{id}/status")]
+        [Authorize(Roles = "Admin, Worker")]
         public async Task<ActionResult> ChangeOrderStatus(Guid id, [FromBody] ChangeOrderStatusRequestDto request)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null)
-            {
-                throw new Exception("no active user found");
-            }
+            var userId = GetCurrentUserId();
 
-            await _service.ChangeStatus(id, userId, request.Status);
+            await _service.ChangeStatus(id, userId.ToString(), request.Status);
             return Ok();
         }
-
-        [HttpPost("getPrice")]
-        public async Task<ActionResult<PriceResultDto>> GetPricePerUnit([FromBody] GetPriceDto request)
-        {
-            return await _priceCalcService.CalculatePrice(request);
-        }
-
-        [HttpPost("create")]
-        public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] OrdersRequest request)
+      
+        [HttpPost]
+        public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request)
         {
             var response = await _service.CreateOrder(request);
             return Ok(response);
         }
 
-        [HttpGet("{orderId}/status")]
-        public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(string orderId)
+        [HttpGet("{id}/paymentStatus")]
+        public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(Guid id)
         {
-            var status = await _service.GetOrderStatus(new Guid(orderId));
+            var userId = GetCurrentUserId();
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var status = await _service.GetOrderStatus(id);
             var response = new GetOrderPaymentStatusDto
                 { PaymentStatus = status };
             return Ok(response);

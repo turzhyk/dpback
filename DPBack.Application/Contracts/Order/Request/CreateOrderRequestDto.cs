@@ -2,11 +2,10 @@
 namespace DPBack.Application.Contracts
 
 {
-    public class OrdersRequest
+    public class CreateOrderRequestDto
     {
         public string Desc { get; set; }
-
-        public decimal Price { get; set; }
+        public Guid CreatedBy { get; set; }
         public List<OrderItemRequest> Items { get; set; }
     };
 }

@@ -8,4 +8,7 @@ public class UserCreateRequest
     public string Email { get; set; }
     [Required ]
     public string Password { get; set; }
+    public string Name { get; set; }
+    [Phone]
+    public string Phone { get; set; }
 }

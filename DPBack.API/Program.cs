@@ -1,35 +1,41 @@
 using System.Text;
 using DPBack.API.PayU;
-using DPBack.API.TockenProvider;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Commands;
+using DPBack.Application.Options;
 using DPBack.Application.Services;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Payments;
 using DPBack.Infrastructure.Repositories;
 using DPBack.Infrastructure.Seeder;
-
+using DPBack.Infrastructure.TockenProvider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+IConfiguration configuration = builder.Configuration;
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-IConfiguration configuration = builder.Configuration;
+
+// Enable cross-api requests
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .WithOrigins(["http://localhost:5173","http://localhost:3000" ]) // адрес твоего React dev
+            .WithOrigins(["http://localhost:5173","http://localhost:3000" ]) // 5173:AdminPanel, 3000:PublicApp
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -39,9 +45,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateActor = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
-        ValidAudience = configuration["JWT:Audience"],
-        ValidIssuer = configuration["JWT:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
+        ValidAudience = jwtOptions.Audience,
+        ValidIssuer = jwtOptions.Issuer,
     };
 });
 builder.Services.AddAuthorization();

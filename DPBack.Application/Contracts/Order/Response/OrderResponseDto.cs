@@ -2,7 +2,7 @@
 
 namespace DPBack.Application.Contracts
 {
-    public class OrdersResponse
+    public class OrderResponseDto
     {
         public Guid id { get; set; }
         public int OrderNumber { get; set; }

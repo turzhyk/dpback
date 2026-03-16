@@ -7,7 +7,8 @@ namespace DPBack.Application.Abstractions;
 public interface IUserService
 {
     Task<Guid> CreateUser(UserCreateRequest request);
+    Task<string> Login(UserLoginRequest request);
     Task<User> GetByEmail(string email);
     Task<List<UserAddressGetDto>> GetAdressesByUserId(Guid id);
-    Task AddUserAdress(string userId, UserAdressCreateDto dto);
+    Task AddUserAdress(Guid userId, UserAdressCreateDto dto);
 }
