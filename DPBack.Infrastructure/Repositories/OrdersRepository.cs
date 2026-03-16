@@ -1,5 +1,5 @@
 ﻿using DPBack.Application.Abstractions;
-
+using DPBack.Application.Contracts;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Entities;
@@ -66,18 +66,23 @@ namespace DPBack.Infrastructure.Repositories
             return MapToOrder(orderEntity);
         }
 
-        public async Task<List<Order>> GetAll()
+        public async Task<int> Count()
+        {
+            var count = await _context.Orders.AsQueryable().CountAsync();
+            return count;
+        }
+        public async Task<List<Order>> GetAll(int skip = 0, int take = 20)
         {
             var orderEntities =
                 await _context.Orders
-                    .AsNoTracking()
+                    .AsNoTracking() 
+                    .Skip(skip)
+                    .Take(take)
                     .Include(o => o.Items)
                     .Include(o => o.History)
-                    .Take(30)
                     .OrderByDescending(x => x.CreatedAt)
                     .ToListAsync();
-
-
+            
             return orderEntities.Select(MapToOrder).ToList();
         }
 
@@ -134,10 +139,9 @@ namespace DPBack.Infrastructure.Repositories
                 throw new Exception($"No order found with id {orderId}");
             return order.PaymentStatus;
         }
-    
-    
 
-    public async Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor)
+
+        public async Task ChangeStatus(Guid orderId, string author, OrderStatus status, string newAuthor)
         {
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.Id == orderId);

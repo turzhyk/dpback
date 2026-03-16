@@ -9,7 +9,7 @@ namespace DPBack.Application.Abstractions
     {
         Task<CreateOrderResponseDto> CreateOrder(CreateOrderRequestDto createOrder);
         Task<List<OrderResponseDto>> GetAllOrders();
-        Task<List<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request);
+        Task<PagedRespose<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request);
         Task<OrderResponseDto> GetOrderById(Guid userId,Guid orderId);
         Task AssignToAsync(Guid orderId, string author);
         Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status);

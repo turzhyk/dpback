@@ -1704,19 +1704,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/ricardo/.nuget/packages/": {}
+    "C:\\Users\\New\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ricardo/RiderProjects/dpback/DPBack.Application/DPBack.Application.csproj",
+      "projectUniqueName": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Application\\DPBack.Application.csproj",
       "projectName": "DPBack.Application",
-      "projectPath": "/Users/ricardo/RiderProjects/dpback/DPBack.Application/DPBack.Application.csproj",
-      "packagesPath": "/Users/ricardo/.nuget/packages/",
-      "outputPath": "/Users/ricardo/RiderProjects/dpback/DPBack.Application/obj/",
+      "projectPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Application\\DPBack.Application.csproj",
+      "packagesPath": "C:\\Users\\New\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ricardo/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\New\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1728,8 +1728,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/ricardo/RiderProjects/dpback/DPBack.Domain/DPBack.Domain.csproj": {
-              "projectPath": "/Users/ricardo/RiderProjects/dpback/DPBack.Domain/DPBack.Domain.csproj"
+            "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Domain\\DPBack.Domain.csproj": {
+              "projectPath": "C:\\Users\\New\\RiderProjects\\DPBack.API\\DPBack.Domain\\DPBack.Domain.csproj"
             }
           }
         }
@@ -1743,8 +1743,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -1775,7 +1774,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.419/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

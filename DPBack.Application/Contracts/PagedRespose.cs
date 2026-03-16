@@ -1,6 +1,6 @@
 namespace DPBack.Application.Contracts;
 
-public class PagedResposeDto<T> where T : class
+public class PagedRespose<T> where T : class
 {
     public List<T> Items { get; set; }
     public int TotalItems { get; set; }

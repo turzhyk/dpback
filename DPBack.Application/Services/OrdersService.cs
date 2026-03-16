@@ -74,18 +74,29 @@ namespace DPBack.Application.Services
 
         public async Task<List<OrderResponseDto>> GetAllOrders()
         {
-            var orders = await _repo.GetAll();
+            var orders = await _repo.GetAll(0, 100);
             var response = orders.Select(o =>
                 OrderToDto(o)).ToList();
             return response;
         }
 
-        public async Task<List<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request)
+        public async Task<PagedRespose<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request)
         {
-            var orders = await _repo.GetAll();
-            var response = orders.Select(o =>
-                OrderToDto(o)).ToList();
-            return response;
+            var skip = (request.PageNumber - 1) * request.PageSize;
+            
+            var orders = await _repo.GetAll(skip, request.PageSize);
+            
+            
+            var totalCount = await _repo.Count();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
+            return new PagedRespose<OrderResponseDto>
+            {
+                Items = orders.Select(OrderToDto).ToList(),
+                TotalItems = totalCount,
+                PageIndex = request.PageNumber,
+                PageSize = request.PageSize,
+                TotalPages = totalPages
+            };
         }
 
         public async Task<OrderResponseDto> GetOrderById(Guid userId,Guid orderId)

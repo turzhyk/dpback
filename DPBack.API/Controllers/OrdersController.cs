@@ -36,10 +36,12 @@ namespace DPBack.API.Controllers
             
             return Ok(result);
         }
-
+        [HttpPost(("paged"))]
+        [Authorize]
         public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersFiltered(OrdersFilteredRequestDto request)
         {
-            return Ok();
+            var respose = _service.GetOrdersFiltered(request);
+            return Ok(respose);
         }
         [HttpGet("{id}")]
         [Authorize]
@@ -70,6 +72,7 @@ namespace DPBack.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request)
         {
+            var userId = GetCurrentUserId();
             var response = await _service.CreateOrder(request);
             return Ok(response);
         }

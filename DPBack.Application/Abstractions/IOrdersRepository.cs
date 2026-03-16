@@ -1,4 +1,5 @@
 ﻿
+using DPBack.Application.Contracts;
 using DPBack.Domain.Models;
 
 namespace DPBack.Application.Abstractions
@@ -7,7 +8,8 @@ namespace DPBack.Application.Abstractions
     {
         Task<Guid> Create(Order order);
         Task<Guid> Delete(Guid id);
-        Task<List<Order>> GetAll( );
+        Task<List<Order>> GetAll(int skip, int take );
+        Task<int> Count();
         Task<Order> GetWithId(Guid id);
         Task Update(Order order);
         Task<Guid> Update(Guid id, string description, decimal price, string assignedTo);
