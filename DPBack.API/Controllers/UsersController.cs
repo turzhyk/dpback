@@ -62,7 +62,7 @@ public class UsersController : ControllerBase
         return Ok(result);
     }
     [Authorize]
-    [HttpPost("address")]
+    [HttpPost("addresses")]
     public async Task<ActionResult> AddUserAdress ([FromBody] UserAdressCreateDto request)
     {
         var userId = GetCurrentUserId();
@@ -70,14 +70,14 @@ public class UsersController : ControllerBase
         await _service.AddUserAdress(userId, request);
         return Ok();
     }
-    [HttpPatch("address/{addressId}")]
+    [HttpPatch("addresses/{addressId}")]
     [Authorize]
     public async Task<ActionResult> ChangeUserAddress(Guid addressId, [FromBody] UserAdressCreateDto request)
     {
         // Implement later
         return Ok();
     }
-    [HttpDelete("address/{addressId}")]
+    [HttpDelete("addresses/{addressId}")]
     [Authorize]
     public async Task<ActionResult> DeleteUserAddress(Guid addressId)
     {

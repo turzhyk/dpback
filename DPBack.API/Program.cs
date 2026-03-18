@@ -1,4 +1,5 @@
 using System.Text;
+using DPBack.API.Middleware;
 using DPBack.API.PayU;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Commands;
@@ -94,7 +95,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-
+app.UseMiddleware<GlobalExceptionHandler>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

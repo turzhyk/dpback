@@ -20,7 +20,7 @@ public class UsersRepository : IUsersRepository
     {
         var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (userEntity == null)
-            throw new Exception($"user with email {email} doesn't exist");
+            return null;
         return new User(userEntity.Id, userEntity.Login, userEntity.PasswordHash, userEntity.Email, userEntity.Role,
             userEntity.CreatedAt);
     }

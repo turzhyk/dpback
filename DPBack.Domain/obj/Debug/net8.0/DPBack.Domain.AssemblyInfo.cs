@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DPBack.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82ebc789079236dc23e6a615c7b169e83083676c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35e1d27fab95db77023add93533c62287c4cb652")]
 [assembly: System.Reflection.AssemblyProductAttribute("DPBack.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DPBack.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
