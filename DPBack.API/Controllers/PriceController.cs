@@ -13,8 +13,8 @@ public class PriceController:ControllerBase
         _priceCalcService = priceCalcService;
     }
     [HttpPost]
-    public async Task<ActionResult<PriceResultDto>> GetPricePerUnit([FromBody] GetPriceDto request)
+    public async Task<ActionResult<decimal>> GetPricePerUnit([FromBody] OrderItemRequest request)
     {
-        return await _priceCalcService.CalculatePrice(request);
+        return await _priceCalcService.Calculate(request);
     }
 }

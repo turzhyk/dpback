@@ -21,6 +21,7 @@ public sealed class GlobalExceptionHandler(RequestDelegate next)
                     Title = "En error has occured",
                     Detail = error.Message
                 });
+            
         }
     }
 }

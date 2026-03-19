@@ -4,5 +4,5 @@ public enum OrderItemType
 {
     Businesscard,
     Banner,
-    ReadyMade
+    OpeningHoursSticker
 }

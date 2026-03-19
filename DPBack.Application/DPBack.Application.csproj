@@ -12,6 +12,8 @@
 
     <ItemGroup>
       <Folder Include="Configs\" />
+      <Folder Include="PricingConfigurations\" />
+      <Folder Include="Pricing\Configurations\" />
     </ItemGroup>
 
     <ItemGroup>

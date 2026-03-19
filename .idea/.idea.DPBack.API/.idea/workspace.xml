@@ -10,8 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f5b9152-cb19-4f0a-8b48-cabb1603d15d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DPBack.Domain/Models/Products/BusinesscardConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DPBack.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DPBack.API/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API/Controllers/PriceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/Controllers/PriceController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API/Middleware/GlobalExceptionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/Middleware/GlobalExceptionHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.exe" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.API.pdb" afterDir="false" />
@@ -21,6 +26,7 @@
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Domain.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Infrastructure.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Infrastructure.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Infrastructure.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/DPBack.Infrastructure.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/bin/Debug/net8.0/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/DPBack.API.csproj.AssemblyReference.cache" afterDir="false" />
@@ -30,8 +36,13 @@
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/ref/DPBack.API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/ref/DPBack.API.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/refint/DPBack.API.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/Debug/net8.0/refint/DPBack.API.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.API/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.API/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.Application/Contracts/User/Request/UserLoginRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Contracts/User/Request/UserLoginRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/Abstractions/IPriceCalcService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Abstractions/IPriceCalcService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/Contracts/Order/Request/OrderItemRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Contracts/Order/Request/OrderItemRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/Contracts/Order/Response/OrderItemResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Contracts/Order/Response/OrderItemResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/DPBack.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/DPBack.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/PricingConfigurations/BusinesscardConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/Services/OrdersService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Services/OrdersService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/Services/PriceCalcService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/Services/PriceCalcService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Application.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Application.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Application.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Application.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/bin/Debug/net8.0/DPBack.Domain.dll" afterDir="false" />
@@ -39,23 +50,33 @@
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/DPBack.Application.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/ref/DPBack.Application.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/ref/DPBack.Application.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/refint/DPBack.Application.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/Debug/net8.0/refint/DPBack.Application.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.Application/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Application/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Domain/Enums/BusinesscardPaperCoating.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Domain/Enums/OrderItemType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/Enums/OrderItemType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Domain/Models/OrderItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/Models/OrderItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/bin/Debug/net8.0/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/bin/Debug/net8.0/DPBack.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/bin/Debug/net8.0/DPBack.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/bin/Debug/net8.0/DPBack.Domain.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/DPBack.Domain.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/ref/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/ref/DPBack.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/refint/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/Debug/net8.0/refint/DPBack.Domain.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.Domain/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Domain/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Repositories/UsersRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/Repositories/UsersRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Contexts/ProductStoreDbContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Entities/Orders/OrderItemEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/Entities/Orders/OrderItemEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Entities/Products/BusinesscardEntity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Entities/Products/BusinesscardFinishTypeEntity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Entities/Products/BusinesscardPaperTypeEntity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Migrations/ProductStoreDb/20260227133935_ProductsInit.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Migrations/ProductStoreDb/20260227133935_ProductsInit.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/Migrations/ProductStoreDb/ProductStoreDbContextModelSnapshot.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Application.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Application.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Application.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Application.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/bin/Debug/net8.0/DPBack.Domain.dll" afterDir="false" />
@@ -65,12 +86,12 @@
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/DPBack.Infrastructure.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/ref/DPBack.Infrastructure.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/ref/DPBack.Infrastructure.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/refint/DPBack.Infrastructure.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/Debug/net8.0/refint/DPBack.Infrastructure.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DPBack.Infrastructure/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/DPBack.Infrastructure/obj/rider.project.model.nuget.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,12 +114,24 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7208b3f72528d22781d25fde9a55271bdf2b5aade4f03b1324579a25493cd8/List.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.API/Controllers/PaymentController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.API/Middleware/GlobalExceptionHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Application/Abstractions/IPriceCalculator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.Application/Abstractions/ITokenProvider.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.Application/Commands/PaymentCommands.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.Application/Features/RawBodyConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.Application/Features/SignatureVerificator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Application/Options/Pricing/OpeningHoursStickerPricing.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Application/Pricing/Calculators/BusinesscardCalculator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Application/Pricing/Calculators/OpeningHoursStickerCalculator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Application/Pricing/PriceCalculatorFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DPBack.Domain/Enums/OrderItemType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Domain/Enums/Products/Businesscard.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Domain/Enums/Products/Letter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Domain/Enums/Products/Sticker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Domain/Models/Products/LetterConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DPBack.Domain/Models/Products/OpeningHoursStickerConfig.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../ihatedotnet/IHateDotnet/Properties/launchSettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../ihatedotnet/IHateDotnet/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -209,6 +242,8 @@
       <workItem from="1773395530606" duration="6223000" />
       <workItem from="1773649432594" duration="7087000" />
       <workItem from="1773746421424" duration="5244000" />
+      <workItem from="1773831628713" duration="4205000" />
+      <workItem from="1773908448232" duration="14802000" />
     </task>
     <servers />
   </component>

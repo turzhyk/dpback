@@ -1,9 +1,13 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using DPBack.API.Middleware;
 using DPBack.API.PayU;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Commands;
 using DPBack.Application.Options;
+using DPBack.Application.Options.Pricing;
+using DPBack.Application.Pricing;
+using DPBack.Application.Pricing.Calculators;
 using DPBack.Application.Services;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
@@ -56,10 +60,7 @@ builder.Services.AddDbContext<OrderStoreDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(OrderStoreDbContext)));
 });
-builder.Services.AddDbContext<ProductStoreDbContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(ProductStoreDbContext)));
-});
+
 builder.Services.AddDbContext<UserStoreDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserStoreDbContext)));
@@ -72,6 +73,15 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<PaymentCommands>();
 
+//Pricing
+
+builder.Services.Configure<BusinesscardPricing>(
+    builder.Configuration.GetSection("Pricing:Businesscard"));
+builder.Services.AddScoped<IPriceCalculator, BusinesscardCalculator>();
+builder.Services.Configure<OpeningHoursStickerPricing>(
+    builder.Configuration.GetSection("Pricing:WindowStickers:OpeningHours"));
+builder.Services.AddScoped<IPriceCalculator, OpeningHoursStickerCalculator>();
+builder.Services.AddScoped<PriceCalculatorFactory>();
 
 builder.Services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
 builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
@@ -81,6 +91,10 @@ builder.Services.AddHttpClient<IPaymentService, PayUService>(client =>
 
 builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
 
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

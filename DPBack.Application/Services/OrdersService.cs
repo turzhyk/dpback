@@ -30,6 +30,7 @@ namespace DPBack.Application.Services
 
         private readonly IOrdersRepository _repo;
         private readonly IPaymentService _paymentService;
+        private readonly IPriceCalcService _priceService;
 
         private OrderResponseDto OrderToDto(Order o)
         {
@@ -59,11 +60,12 @@ namespace DPBack.Application.Services
             };
         }
 
-        public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService
+        public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService, IPriceCalcService priceCalcService
         )
         {
             _repo = ordersRepo;
             _paymentService = paymentService;
+            _priceService = priceCalcService;
         }
 
         public async Task<string> GetOrderStatus(Guid orderId)
@@ -113,6 +115,7 @@ namespace DPBack.Application.Services
                 Type = i.Type,
                 Options = i.Options,
             }).ToList();
+            var totalPrice = _priceService.Calculate(requestDto.Items[0]);
             var (order, error) = Order.Create(
                 Guid.NewGuid(),
                 0,
