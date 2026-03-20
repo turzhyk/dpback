@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DPBack.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c817dc20cfd5d0d03dd82d63a3debc49090374a8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46c5557f5016fb260315e341d3773c3edf007eee")]
 [assembly: System.Reflection.AssemblyProductAttribute("DPBack.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DPBack.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

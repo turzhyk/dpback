@@ -19,7 +19,7 @@ public class BusinesscardCalculator : IPriceCalculator
         _pricing = pricing.Value;
     }
 
-    public Task<decimal> Calculate(JsonElement configJson)
+    public decimal Calculate(JsonElement configJson)
     {
         Console.WriteLine(configJson);
         var config = JsonSerializer.Deserialize<BusinesscardConfig>(configJson.GetRawText());
@@ -29,6 +29,6 @@ public class BusinesscardCalculator : IPriceCalculator
         decimal price = _pricing.BasePrice ;
         price += _pricing.ThicknessPrices.GetValueOrDefault(config.Thickness);
         price += _pricing.CoatingPrices.GetValueOrDefault(config.Coating);
-        return Task.FromResult(price);
+        return price;
     }
 }

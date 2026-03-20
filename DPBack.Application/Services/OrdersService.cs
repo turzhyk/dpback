@@ -1,8 +1,6 @@
 ﻿using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
 using DPBack.Domain.Models;
-using Microsoft.AspNetCore.SignalR;
-
 
 namespace DPBack.Application.Services
 {
@@ -68,11 +66,6 @@ namespace DPBack.Application.Services
             _priceService = priceCalcService;
         }
 
-        public async Task<string> GetOrderStatus(Guid orderId)
-        {
-            var status = await _repo.GetPaymentStatus(orderId);
-            return status.ToString();
-        }
 
         public async Task<List<OrderResponseDto>> GetAllOrders()
         {
@@ -104,6 +97,8 @@ namespace DPBack.Application.Services
         public async Task<OrderResponseDto> GetOrderById(Guid userId,Guid orderId)
         {
             var order = await _repo.GetWithId(orderId);
+            if(order == null)
+                throw new Exception($"Order with id {orderId} not found");
             return OrderToDto(order);
         }
         public async Task<CreateOrderResponseDto> CreateOrder(CreateOrderRequestDto requestDto)
@@ -115,12 +110,16 @@ namespace DPBack.Application.Services
                 Type = i.Type,
                 Options = i.Options,
             }).ToList();
-            var totalPrice = _priceService.Calculate(requestDto.Items[0]);
+            decimal totalPrice = 0;
+            foreach (var i in requestDto.Items)
+            {
+                totalPrice += _priceService.Calculate(i);
+            }
             var (order, error) = Order.Create(
                 Guid.NewGuid(),
                 0,
                 requestDto.Desc,
-                19,
+                totalPrice,
                 items,
                 "",
                 DateTime.UtcNow,
@@ -130,13 +129,16 @@ namespace DPBack.Application.Services
                 null
             );
             await _repo.Create(order);
-            var paymentUrl = await _paymentService.CreatePayment(order.Id.ToString());
+            var paymentUrl = await _paymentService.CreatePayment(order.Id.ToString(), totalPrice);
             return new CreateOrderResponseDto { OrderId = order.Id.ToString(), PaymentUrl = paymentUrl };
         }
 
         public async Task ChangeStatus(Guid orderId, string author, OrderStatus newStatus)
         {
             var order = await _repo.GetWithId(orderId);
+            if(order == null)
+                throw new Exception($"Order with id {orderId} not found");
+            
             if (order.AssignedTo != author)
                 throw new Exception("Can't modify order that is assigned to another worker");
             if (AllowedTransitions[order.Status].Contains(newStatus))

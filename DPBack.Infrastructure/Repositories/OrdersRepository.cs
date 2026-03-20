@@ -1,5 +1,5 @@
 ﻿using DPBack.Application.Abstractions;
-using DPBack.Application.Contracts;
+
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Entities;
@@ -52,7 +52,7 @@ namespace DPBack.Infrastructure.Repositories
             return order;
         }
 
-        public async Task<Order> GetWithId(Guid id)
+        public async Task<Order?> GetWithId(Guid id)
         {
             var orderEntity =
                 await _context.Orders
@@ -62,7 +62,7 @@ namespace DPBack.Infrastructure.Repositories
                     .Where(x => x.Id == id)
                     .FirstOrDefaultAsync();
             if (orderEntity == null)
-                throw new Exception($"Order with id {id} not found");
+                return null;
             return MapToOrder(orderEntity);
         }
 
@@ -131,12 +131,12 @@ namespace DPBack.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId)
+        public async Task<OrderPaymentStatus?> GetPaymentStatus(Guid orderId)
         {
             var order = await _context.Orders.AsNoTracking()
                 .FirstOrDefaultAsync(o => o.Id == orderId);
             if (order == null)
-                throw new Exception($"No order found with id {orderId}");
+                return null;
             return order.PaymentStatus;
         }
 

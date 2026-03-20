@@ -7,5 +7,5 @@ namespace DPBack.Application.Abstractions;
 public interface IPriceCalculator
 {
     public OrderItemType Type { get; }
-    public Task<decimal> Calculate(JsonElement config);
+    public decimal Calculate(JsonElement config);
 }

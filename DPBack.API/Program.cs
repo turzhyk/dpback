@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using DPBack.API.Middleware;
-using DPBack.API.PayU;
+
 using DPBack.Application.Abstractions;
 using DPBack.Application.Commands;
 using DPBack.Application.Options;
@@ -12,9 +12,10 @@ using DPBack.Application.Services;
 using DPBack.Domain.Models;
 using DPBack.Infrastructure.Contexts;
 using DPBack.Infrastructure.Payments;
+using DPBack.Infrastructure.PayU;
 using DPBack.Infrastructure.Repositories;
 using DPBack.Infrastructure.Seeder;
-using DPBack.Infrastructure.TockenProvider;
+using DPBack.Infrastructure.TokenProvider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 IConfiguration configuration = builder.Configuration;
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<PayUOptions>(builder.Configuration.GetSection("PayU"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -108,6 +110,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
 app.UseCors();
 app.UseMiddleware<GlobalExceptionHandler>();
 app.UseHttpsRedirection();

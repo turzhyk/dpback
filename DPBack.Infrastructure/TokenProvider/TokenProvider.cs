@@ -5,16 +5,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace DPBack.Infrastructure.TockenProvider;
+namespace DPBack.Infrastructure.TokenProvider;
 
 public class TokenProvider : ITokenProvider
 {
     private readonly JwtOptions _options;
 
-    public TokenProvider(IConfiguration configuration, IOptions<JwtOptions> options)
+    public TokenProvider( IOptions<JwtOptions> options)
     {
        _options = options.Value;
     }

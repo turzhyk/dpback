@@ -20,7 +20,7 @@ public class PayUService : IPaymentService
         _configuration = configuration;
     }
 
-    public async Task<string> CreatePayment(string orderId)
+    public async Task<string> CreatePayment(string orderId, decimal totalPrice)
     {
         var token = await _tokenProvider.GetToken();
         var handler = new HttpClientHandler
@@ -35,19 +35,20 @@ public class PayUService : IPaymentService
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
 
+        string norifyUrl = _configuration["Payu:NotifyUrl"] + "/api/payments/notify";
         var payuOrder = new
         {
-            continueUrl = $"http://localhost:3000/payment/{orderId}/status",
-            notifyUrl = "https://nontheologically-catapultic-everett.ngrok-free.dev/api/payments/notify",
+            continueUrl = $"http://localhost:3000/payment/{orderId}/payment",
+            notifyUrl = norifyUrl,
             customerIp = "127.0.0.1",
-            merchantPosId = _configuration["PayU:Client"],
+            merchantPosId = _configuration["PayU:ClientId"],
             description = "test order",
             currencyCode = "PLN",
-            totalAmount = "100", // в копейках: 1 PLN = 100
+            totalAmount = totalPrice.ToString(), // в копейках: 1 PLN = 100
             extOrderId = orderId,
             products = new[]
             {
-                new { name = "Order", unitPrice = "100", quantity = "1" } // unitPrice тоже в копейках
+                new { name = "Order", unitPrice = totalPrice.ToString(), quantity = "1" } // unitPrice тоже в копейках
             }
         };
 

@@ -9,10 +9,15 @@ public static class RawBodyConverter
     {
         request.EnableBuffering();
 
-        using var reader = new StreamReader(request.Body, Encoding.UTF8, leaveOpen: true);
-        var body = await reader.ReadToEndAsync();
+        request.Body.Position = 0;
+
+        using var ms = new MemoryStream();
+        await request.Body.CopyToAsync(ms);
+
+        var bytes = ms.ToArray();
 
         request.Body.Position = 0;
-        return body;
+
+        return Encoding.UTF8.GetString(bytes);
     }
 }

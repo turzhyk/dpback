@@ -16,10 +16,10 @@ public class PriceCalcService : IPriceCalcService
         _factory = factory;
     }
 
-    public async Task<decimal> Calculate(OrderItemRequest request)
+    public decimal Calculate(OrderItemRequest request)
     {
         var item = new OrderItem { Type = request.Type, Options = request.Options };
         var calc = _factory.Get(item.Type);
-        return await calc.Calculate(item.Options);
+        return calc.Calculate(item.Options);
     }
 }

@@ -1,6 +1,8 @@
+using DPBack.Domain.Models;
+
 namespace DPBack.Application.Contracts;
 
 public class GetOrderPaymentStatusDto
 {
-    public string PaymentStatus { get; set; }
+    public OrderPaymentStatus PaymentStatus { get; set; }
 }

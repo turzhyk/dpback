@@ -2,42 +2,52 @@ using System.Text.Json;
 using DPBack.Application.Contracts;
 using DPBack.Application.Features;
 using DPBack.Application.Abstractions;
+using DPBack.Application.Options;
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
-namespace DPBack.Infrastructure.Payments;
+namespace DPBack.API.Controllers;
 
 [ApiController]
 [Route("api/payments")]
 public class PaymentController : Controller
 {
-    private readonly IConfiguration _configuration;
     private readonly IOrdersService _ordersService;
     private readonly IPaymentService _paymentService;
-    private readonly IPaymentTokenProvider _tokenProvider;
+    private readonly PayUOptions _options;
 
-    public PaymentController(IConfiguration configuration, IOrdersService ordersService, IPaymentService paymentService, IPaymentTokenProvider paymentTokenProvider)
+    public PaymentController(IOptions<PayUOptions> options, IOrdersService ordersService, IPaymentService paymentService)
     {
-        _configuration = configuration;
+        _options = options.Value;
+       
         _ordersService = ordersService;
         _paymentService = paymentService;
-        _tokenProvider = paymentTokenProvider;
     }
 
     [HttpPost("notify")]
     public async Task<IActionResult> Notify()
-    {
-        var rawBody = await RawBodyConverter.GetRawBody(Request);
-
+    { 
+        // var rawBody = await RawBodyConverter.GetRawBody(Request);
+        // Console.WriteLine(rawBody)
+        Request.Body.Position = 0;
+        using var reader = new StreamReader(Request.Body, leaveOpen: true);
+        var rawBody = await reader.ReadToEndAsync();
+        Request.Body.Position = 0;
+        
         var signatureHeader = Request.Headers["OpenPayu-Signature"];
-        if(!SignatureVerificator.Verify(rawBody, signatureHeader, _configuration["PayU:SecondKey"]))
+   
+        if(!SignatureVerificator.Verify(rawBody, signatureHeader, _options.SecondKey))
             return Unauthorized();
         
         var dto = JsonSerializer.Deserialize<PayUWebhookDto>(rawBody);
+        if (dto == null)
+            return BadRequest("invalid notify data");
+        
         var orderId = dto.Order.ExtOrderId;
         var payuOrderId = dto.Order.OrderId;
         var status = dto.Order.Status;
-
+        
         switch (status)
         {
             case ("WAITING_FOR_CONFIRMATION"):

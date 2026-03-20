@@ -15,6 +15,6 @@ public class PriceController:ControllerBase
     [HttpPost]
     public async Task<ActionResult<decimal>> GetPricePerUnit([FromBody] OrderItemRequest request)
     {
-        return await _priceCalcService.Calculate(request);
+        return _priceCalcService.Calculate(request);
     }
 }

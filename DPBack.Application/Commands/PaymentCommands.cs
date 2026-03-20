@@ -11,9 +11,9 @@ public class PaymentCommands
         _paymentService = paymentService;
     }
 
-    public async Task<string> CreatePayment(string orderId)
+    public async Task<string> CreatePayment(string orderId, decimal price)
     {
-        return await _paymentService.CreatePayment(orderId);
+        return await _paymentService.CreatePayment(orderId,price );
     }
     public async Task CapturePayment(string payuOrderId)
     {

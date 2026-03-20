@@ -9,14 +9,14 @@ namespace DPBack.Infrastructure.Repositories;
 
 public class UsersRepository : IUsersRepository
 {
-    public readonly UserStoreDbContext _context;
+    private readonly UserStoreDbContext _context;
 
     public UsersRepository(UserStoreDbContext context)
     {
         _context = context;
     }
 
-    public async Task<User> GetByEmail(string email)
+    public async Task<User?> GetByEmail(string email)
     {
         var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (userEntity == null)
@@ -36,8 +36,8 @@ public class UsersRepository : IUsersRepository
     public async Task<List<UserAdress>> GetAdressesByUserId(Guid id)
     {
         var entities = await _context.Adresses.Where(adress => adress.UserId == id).ToListAsync();
-        if (entities == null)
-            throw new Exception($"no address fount for user {id}");
+        if (entities.Count == 0)
+            return new List<UserAdress>();
 
         return entities.Select(entity => new UserAdress(entity.Id, entity.UserId, entity.Country, entity.City, entity.Street,
             entity.BuildingNumber, entity.ApartmentNumber, entity.PostalCode, entity.PhoneNumber, entity.Email,

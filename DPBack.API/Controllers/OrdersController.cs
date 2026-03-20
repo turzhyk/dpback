@@ -11,7 +11,6 @@ namespace DPBack.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersService _service;
-        private readonly IPriceCalcService _priceCalcService;
         private Guid GetCurrentUserId()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -21,10 +20,9 @@ namespace DPBack.API.Controllers
             }
             return Guid.Parse(userId);
         }
-        public OrdersController(IOrdersService service, IPriceCalcService priceCalcService)
+        public OrdersController(IOrdersService service)
         {
             _service = service;
-            _priceCalcService = priceCalcService;
         }
 
         [HttpGet]
@@ -40,7 +38,7 @@ namespace DPBack.API.Controllers
         [Authorize]
         public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersFiltered(OrdersFilteredRequestDto request)
         {
-            var respose = _service.GetOrdersFiltered(request);
+            var respose = await _service.GetOrdersFiltered(request);
             return Ok(respose);
         }
         [HttpGet("{id}")]
@@ -72,7 +70,7 @@ namespace DPBack.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request)
         {
-            var userId = GetCurrentUserId();
+            // var userId = GetCurrentUserId();
             var response = await _service.CreateOrder(request);
             return Ok(response);
         }
@@ -80,9 +78,9 @@ namespace DPBack.API.Controllers
         [HttpGet("{id}/paymentStatus")]
         public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(Guid id)
         {
-            var userId = GetCurrentUserId();
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            var status = await _service.GetOrderStatus(id);
+            // var userId = GetCurrentUserId();
+            // var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var status = await _service.GetPaymentStatus(id);
             var response = new GetOrderPaymentStatusDto
                 { PaymentStatus = status };
             return Ok(response);

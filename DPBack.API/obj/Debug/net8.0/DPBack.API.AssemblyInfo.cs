@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("7021e640-faf3-41e7-aa31-1daa9722e148")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c817dc20cfd5d0d03dd82d63a3debc49090374a8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46c5557f5016fb260315e341d3773c3edf007eee")]
 [assembly: System.Reflection.AssemblyProductAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DPBack.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

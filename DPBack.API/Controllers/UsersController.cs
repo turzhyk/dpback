@@ -1,13 +1,8 @@
 
 using System.Security.Claims;
-
 using DPBack.Application.Contracts;
 using DPBack.Application.Abstractions;
-
-using DPBack.Domain.Models;
-using DPBack.Infrastructure.TockenProvider;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DPBack.API.Controllers;

@@ -19,7 +19,7 @@ public class OpeningHoursStickerCalculator : IPriceCalculator
 
     public OrderItemType Type => OrderItemType.OpeningHoursSticker;
 
-    public Task<decimal> Calculate(JsonElement configJson)
+    public decimal Calculate(JsonElement configJson)
     {
         var config = JsonSerializer.Deserialize<OpeningHoursStickerConfig>(configJson.GetRawText());
         if (config == null)
@@ -33,6 +33,6 @@ public class OpeningHoursStickerCalculator : IPriceCalculator
        
         var price = _pricing.Size.GetValueOrDefault(config.Size);
         price *= _pricing.Foil.GetValueOrDefault(config.Foil);
-        return Task.FromResult(price);
+        return price;
     }
 }
