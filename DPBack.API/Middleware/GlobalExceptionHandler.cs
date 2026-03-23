@@ -10,6 +10,10 @@ public sealed class GlobalExceptionHandler(RequestDelegate next)
         try
         {
             await next(context);
+        } 
+        catch (OperationCanceledException)
+        {
+            context.Response.StatusCode = 499;
         }
         catch (Exception error)
         {
@@ -21,8 +25,9 @@ public sealed class GlobalExceptionHandler(RequestDelegate next)
                     Title = "En error has occured",
                     Detail = error.Message
                 });
-            
+
         }
+       
     }
 }
 

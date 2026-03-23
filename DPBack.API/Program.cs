@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 using DPBack.API.Middleware;
 
 using DPBack.Application.Abstractions;
-using DPBack.Application.Commands;
 using DPBack.Application.Options;
 using DPBack.Application.Options.Pricing;
 using DPBack.Application.Pricing;
@@ -73,7 +72,6 @@ builder.Services.AddScoped<IPriceCalcService, PriceCalcService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddScoped<PaymentCommands>();
 
 //Pricing
 

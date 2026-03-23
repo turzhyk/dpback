@@ -28,18 +28,18 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateUser(UserCreateRequest request)
+    public async Task<ActionResult<Guid>> CreateUser(UserCreateRequest request, CancellationToken cToken)
     {
-        var id = await _service.CreateUser(request);
+        var id = await _service.CreateUser(request, cToken);
         return Ok(id);
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> LoginUser([FromBody] UserLoginRequest request)
+    public async Task<ActionResult<string>> LoginUser([FromBody] UserLoginRequest request, CancellationToken cToken)
     {
         try
         {
-            var result = await _service.Login(request);
+            var result = await _service.Login(request, cToken);
             return Ok(result);
         }
         catch (UnauthorizedAccessException e)
@@ -47,34 +47,40 @@ public class UsersController : ControllerBase
             return Unauthorized(e.Message);
         }
     }
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserDto>> GetUserByLogin(Guid id, CancellationToken cToken)
+    {
+        return Ok();
+    }
 
     [Authorize]
     [HttpGet("adresses")]
-    public async Task<ActionResult<List<UserAddressGetDto>>> GetUserAddresses()
+    public async Task<ActionResult<List<UserAddressResponseDto>>> GetUserAddresses(CancellationToken cToken)
     {
         var userId = GetCurrentUserId();
-        var result = await  _service.GetAdressesByUserId(userId);
+        var result = await  _service.GetAddressesByUserId(userId, cToken);
         return Ok(result);
     }
     [Authorize]
     [HttpPost("addresses")]
-    public async Task<ActionResult> AddUserAdress ([FromBody] UserAdressCreateDto request)
+    public async Task<ActionResult> AddUserAdress ([FromBody] UserAdressCreateDto request, CancellationToken cToken)
     {
         var userId = GetCurrentUserId();
 
-        await _service.AddUserAdress(userId, request);
+        await _service.AddUserAddress(userId, request, cToken);
         return Ok();
     }
     [HttpPatch("addresses/{addressId}")]
     [Authorize]
-    public async Task<ActionResult> ChangeUserAddress(Guid addressId, [FromBody] UserAdressCreateDto request)
+    public async Task<ActionResult> ChangeUserAddress(Guid addressId, [FromBody] UserAdressCreateDto request, CancellationToken cToken)
     {
         // Implement later
         return Ok();
     }
     [HttpDelete("addresses/{addressId}")]
     [Authorize]
-    public async Task<ActionResult> DeleteUserAddress(Guid addressId)
+    public async Task<ActionResult> DeleteUserAddress(Guid addressId, CancellationToken cToken)
     {
         // Implement later
         return Ok();

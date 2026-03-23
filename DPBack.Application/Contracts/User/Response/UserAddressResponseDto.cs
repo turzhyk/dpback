@@ -1,8 +1,8 @@
 ﻿namespace DPBack.Application.Contracts{
 
-    public class UserAddressGetDto
+    public class UserAddressResponseDto
     {
-        public UserAddressGetDto(Guid id,string country, string city, string street, string buildingNumber,
+        public UserAddressResponseDto(Guid id,string country, string city, string street, string buildingNumber,
             string apartmentNumber, string postalCode, string phoneNumber, string email, string options)
         {
             Id = id;

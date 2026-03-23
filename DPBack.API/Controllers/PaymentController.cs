@@ -26,7 +26,7 @@ public class PaymentController : Controller
     }
 
     [HttpPost("notify")]
-    public async Task<IActionResult> Notify()
+    public async Task<IActionResult> Notify(CancellationToken cToken)
     { 
         // var rawBody = await RawBodyConverter.GetRawBody(Request);
         // Console.WriteLine(rawBody)
@@ -51,15 +51,15 @@ public class PaymentController : Controller
         switch (status)
         {
             case ("WAITING_FOR_CONFIRMATION"):
-                var currentStatus = await _ordersService.GetPaymentStatus(new Guid(orderId));
+                var currentStatus = await _ordersService.GetPaymentStatus(new Guid(orderId),cToken);
                 if (currentStatus == OrderPaymentStatus.Waiting)
                     await _paymentService.CapturePayment(payuOrderId);
                 break;
             case "CANCELED":
-                await _ordersService.SetPaymentStatus(new Guid(orderId), OrderPaymentStatus.Cancelled);
+                await _ordersService.SetPaymentStatus(new Guid(orderId), OrderPaymentStatus.Cancelled,cToken);
                 break;
             case "COMPLETED":
-                await _ordersService.SetPaymentStatus(new Guid(orderId), OrderPaymentStatus.Paid);
+                await _ordersService.SetPaymentStatus(new Guid(orderId), OrderPaymentStatus.Paid,cToken);
                 break;
         }
 

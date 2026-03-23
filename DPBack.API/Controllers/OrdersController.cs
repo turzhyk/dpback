@@ -28,59 +28,59 @@ namespace DPBack.API.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin, Worker")]
         // Use with caution (could be a lot of data)
-        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersAsync()
+        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersAsync(CancellationToken cToken)
         {
-            var result = await _service.GetAllOrders();
+            var result = await _service.GetAllOrders(cToken);
             
             return Ok(result);
         }
         [HttpPost(("paged"))]
         [Authorize]
-        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersFiltered(OrdersFilteredRequestDto request)
+        public async Task<ActionResult<List<OrderResponseDto>>> GetOrdersFiltered(OrdersFilteredRequestDto request,CancellationToken cToken)
         {
-            var respose = await _service.GetOrdersFiltered(request);
+            var respose = await _service.GetOrdersFiltered(request, cToken);
             return Ok(respose);
         }
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<OrderResponseDto>> GetOrderByIdAsync(Guid orderId)
+        public async Task<ActionResult<OrderResponseDto>> GetOrderByIdAsync(Guid orderId, CancellationToken cToken)
         {
             var userId = GetCurrentUserId();
-            var result = await _service.GetOrderById(userId,orderId);
+            var result = await _service.GetOrderById(userId,orderId, cToken);
             return Ok(result);
         }
         [HttpPut("{id}/assigned")]
         [Authorize(Roles = "Admin, Worker")]
-        public async Task<ActionResult> AssignOrderTo(Guid id, [FromBody] AssignOrderRequest request)
+        public async Task<ActionResult> AssignOrderTo(Guid id, [FromBody] AssignOrderRequest request, CancellationToken cToken)
         {
-            await _service.AssignToAsync(id, request.AuthorLogin);
+            await _service.AssignToAsync(id, request.AuthorLogin, cToken);
             return Ok();
         }
 
         [HttpPut("{id}/status")]
         [Authorize(Roles = "Admin, Worker")]
-        public async Task<ActionResult> ChangeOrderStatus(Guid id, [FromBody] ChangeOrderStatusRequestDto request)
+        public async Task<ActionResult> ChangeOrderStatus(Guid id, [FromBody] ChangeOrderStatusRequestDto request, CancellationToken cToken)
         {
             var userId = GetCurrentUserId();
 
-            await _service.ChangeStatus(id, userId.ToString(), request.Status);
+            await _service.ChangeStatus(id, userId.ToString(), request.Status, cToken);
             return Ok();
         }
       
         [HttpPost]
-        public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request)
+        public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request, CancellationToken cToken)
         {
             // var userId = GetCurrentUserId();
-            var response = await _service.CreateOrder(request);
+            var response = await _service.CreateOrder(request, cToken);
             return Ok(response);
         }
 
         [HttpGet("{id}/paymentStatus")]
-        public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(Guid id)
+        public async Task<ActionResult<GetOrderPaymentStatusDto>> GetOrderPaymentStatus(Guid id, CancellationToken cToken)
         {
             // var userId = GetCurrentUserId();
             // var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            var status = await _service.GetPaymentStatus(id);
+            var status = await _service.GetPaymentStatus(id, cToken);
             var response = new GetOrderPaymentStatusDto
                 { PaymentStatus = status };
             return Ok(response);
