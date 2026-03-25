@@ -18,6 +18,7 @@ public sealed class GlobalExceptionHandler(RequestDelegate next)
         catch (Exception error)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            
             await context.Response.WriteAsJsonAsync(
                 new ProblemDetails
                 {

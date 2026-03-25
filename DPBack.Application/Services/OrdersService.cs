@@ -1,6 +1,7 @@
 ﻿using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
 using DPBack.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace DPBack.Application.Services
 {
@@ -29,6 +30,7 @@ namespace DPBack.Application.Services
         private readonly IOrdersRepository _repo;
         private readonly IPaymentService _paymentService;
         private readonly IPriceCalcService _priceService;
+        private readonly ILogger<OrdersService> _logger;
 
         private OrderResponseDto OrderToDto(Order o)
         {
@@ -58,30 +60,36 @@ namespace DPBack.Application.Services
             };
         }
 
-        public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService, IPriceCalcService priceCalcService
-        )
+        public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService,
+            IPriceCalcService priceCalcService
+            , ILogger<OrdersService> logger)
         {
             _repo = ordersRepo;
             _paymentService = paymentService;
             _priceService = priceCalcService;
+            _logger = logger;
         }
 
 
         public async Task<List<OrderResponseDto>> GetAllOrders(CancellationToken cToken)
         {
-            var orders = await _repo.GetAll(cToken,0, 100);
+            _logger.LogInformation("Getting all orders");
+            var orders = await _repo.GetAll(cToken, 0, 100);
             var response = orders.Select(o =>
                 OrderToDto(o)).ToList();
             return response;
         }
 
-        public async Task<PagedRespose<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request, CancellationToken cToken)
+        public async Task<PagedRespose<OrderResponseDto>> GetOrdersFiltered(OrdersFilteredRequestDto request,
+            CancellationToken cToken)
         {
             var skip = (request.PageNumber - 1) * request.PageSize;
-            
+            _logger.LogInformation("Requesting {pageSize} orders for page nr. {pageNumber}",
+                request.PageSize,
+                request.PageNumber);
+
             var orders = await _repo.GetAll(cToken, skip, request.PageSize);
-            
-            
+
             var totalCount = await _repo.Count(cToken);
             var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
             return new PagedRespose<OrderResponseDto>
@@ -94,15 +102,24 @@ namespace DPBack.Application.Services
             };
         }
 
-        public async Task<OrderResponseDto> GetOrderById(Guid userId,Guid orderId, CancellationToken cToken)
+        public async Task<OrderResponseDto> GetOrderById(Guid userId, Guid orderId, CancellationToken cToken)
         {
-            var order = await _repo.GetWithId(orderId,cToken);
-            if(order == null)
+            _logger.LogInformation(
+                "Getting order {orderId} for user {userId}",
+                orderId,
+                userId);
+            var order = await _repo.GetWithId(orderId, cToken);
+            if (order == null)
                 throw new Exception($"Order with id {orderId} not found");
+            
+
             return OrderToDto(order);
         }
-        public async Task<CreateOrderResponseDto> CreateOrder(CreateOrderRequestDto requestDto, CancellationToken cToken)
+
+        public async Task<CreateOrderResponseDto> CreateOrder(Guid userId, CreateOrderRequestDto requestDto,
+            CancellationToken cToken)
         {
+            _logger.LogInformation("Creating new order for user {userId}", userId);
             var items = requestDto.Items.Select(i => new OrderItem
             {
                 Id = Guid.NewGuid(),
@@ -115,6 +132,7 @@ namespace DPBack.Application.Services
             {
                 totalPrice += _priceService.Calculate(i);
             }
+
             var (order, error) = Order.Create(
                 Guid.NewGuid(),
                 0,
@@ -128,45 +146,62 @@ namespace DPBack.Application.Services
                 paymentStatus: OrderPaymentStatus.Waiting,
                 null
             );
-            await _repo.Create(order,cToken);
+            await _repo.Create(order, cToken);
             var paymentUrl = await _paymentService.CreatePayment(order.Id.ToString(), totalPrice);
             return new CreateOrderResponseDto { OrderId = order.Id.ToString(), PaymentUrl = paymentUrl };
         }
 
         public async Task ChangeStatus(Guid orderId, string author, OrderStatus newStatus, CancellationToken cToken)
         {
-            var order = await _repo.GetWithId(orderId,cToken);
-            if(order == null)
+            var order = await _repo.GetWithId(orderId, cToken);
+            if (order == null)
                 throw new Exception($"Order with id {orderId} not found");
-            
+            _logger.LogInformation("Changing {orderId} order status from {oldStatus} to {newStatus} by {author}",
+                orderId, order.Status, newStatus, author);
+
             if (order.AssignedTo != author)
-                throw new Exception("Can't modify order that is assigned to another worker");
+                throw new Exception("Order status change is not allowed");
+            
+
             if (AllowedTransitions[order.Status].Contains(newStatus))
             {
                 var newAuthor = newStatus == OrderStatus.InProgress ? author : "";
-                await _repo.ChangeStatus(orderId, author, newStatus, newAuthor,cToken);
+                await _repo.ChangeStatus(orderId, author, newStatus, newAuthor, cToken);
             }
             else
             {
-                throw new Exception("");
+                throw new Exception("Order status change is not allowed");
             }
         }
 
         public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId, CancellationToken cToken)
         {
-            var order = await _repo.GetWithId(orderId,cToken);
+            _logger.LogInformation("Getting order {orderId} payment status", orderId);
+            var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception("Can't modify order that is assigned to another worker");
+                throw new Exception($"Order with id {orderId} not found");
             return order.PaymentStatus;
         }
 
         public async Task SetPaymentStatus(Guid orderId, OrderPaymentStatus status, CancellationToken cToken)
         {
-            await _repo.SetPaymentStatus(orderId, status,cToken);
+            var order = await _repo.GetWithId(orderId, cToken);
+            if (order == null)
+                throw new Exception($"Order with id {orderId} not found");
+            if (order.PaymentStatus == status)
+                throw new Exception($"Can't change {orderId} payment status to the same value");
+            
+            _logger.LogInformation("Changing order {orderId} payment status from {oldStatus} to {newStatus}",
+                orderId, order.PaymentStatus, status);
+            await _repo.SetPaymentStatus(orderId, status, cToken);
         }
 
         public async Task AssignToAsync(Guid orderId, string author, CancellationToken cToken)
         {
+            var order = await _repo.GetWithId(orderId, cToken);
+            if (order == null)
+                throw new Exception($"Order with id {orderId} not found");
+            
             await _repo.AssignOrderWithStatus(
                 orderId,
                 author,
@@ -175,7 +210,7 @@ namespace DPBack.Application.Services
                     Status = OrderStatus.InProgress,
                     AuthorLogin = author,
                     ChangedAt = DateTime.UtcNow
-                },cToken);
+                }, cToken);
         }
     }
 }

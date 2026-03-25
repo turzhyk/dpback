@@ -4,6 +4,7 @@ using DPBack.Application.Validators;
 using DPBack.Domain.Enums;
 using DPBack.Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace DPBack.Application.Services;
 
@@ -12,21 +13,25 @@ public class UserService : IUserService
     private readonly IUsersRepository _repo;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly ITokenProvider _tokenProvider;
+    private readonly ILogger<UserService> _logger;
 
-    public UserService(IUsersRepository repo, IPasswordHasher<User> passwordHasher, ITokenProvider tokenProvider)
+    public UserService(IUsersRepository repo, IPasswordHasher<User> passwordHasher, ITokenProvider tokenProvider,
+        ILogger<UserService> logger)
     {
         _repo = repo;
         _passwordHasher = passwordHasher;
         _tokenProvider = tokenProvider;
+        _logger = logger;
     }
 
     public async Task<Guid> CreateUser(UserCreateRequest request, CancellationToken cToken)
     {
+        _logger.LogInformation("Creating new user");
         if (!EmailValidator.IsValid(request.Email))
             throw new Exception("Invalid email");
 
-        // if (await _repo.Пуе(request.Email))
-        //     throw new Exception("User exists");
+        if (await _repo.GetByEmail(request.Email, cToken) !=null)
+            throw new Exception($"User with email {request.Email} already exists");
 
         var user = new User(
             Guid.NewGuid(),
@@ -48,6 +53,7 @@ public class UserService : IUserService
 
     public async Task<string> Login(UserLoginRequest request, CancellationToken cToken)
     {
+        _logger.LogInformation($"Login user {request.Login}");
         var user = await _repo.GetByEmail(request.Login, cToken);
         if (user == null)
             throw new UnauthorizedAccessException("Invalid login or password");
@@ -66,7 +72,7 @@ public class UserService : IUserService
         var user = await _repo.GetByEmail(email, cToken);
         if (user == null)
             throw new InvalidOperationException("User not found");
-        
+
         var response = new UserDto
         {
             Id = user.Id, Login = user.Login, Email = user.Email, CreatedAt = user.CreatedAt,
@@ -82,7 +88,7 @@ public class UserService : IUserService
                 a.PhoneNumber,
                 a.Email,
                 a.Options
-            )).ToList()?? new List<UserAddressResponseDto>(),
+            )).ToList() ?? new List<UserAddressResponseDto>(),
             Role = user.Role
         };
         return response;
@@ -90,7 +96,7 @@ public class UserService : IUserService
 
     public async Task<List<UserAddressResponseDto>> GetAddressesByUserId(Guid id, CancellationToken cToken)
     {
-        var entities = await _repo.GetAdressesByUserId(id,cToken);
+        var entities = await _repo.GetAdressesByUserId(id, cToken);
 
         return entities.Select(a => new UserAddressResponseDto
         (

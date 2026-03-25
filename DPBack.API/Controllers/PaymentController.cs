@@ -32,10 +32,13 @@ public class PaymentController : Controller
         // Console.WriteLine(rawBody)
         Request.Body.Position = 0;
         using var reader = new StreamReader(Request.Body, leaveOpen: true);
-        var rawBody = await reader.ReadToEndAsync();
+        var rawBody = await reader.ReadToEndAsync(cToken);
         Request.Body.Position = 0;
         
         var signatureHeader = Request.Headers["OpenPayu-Signature"];
+        if (string.IsNullOrEmpty(signatureHeader))
+            return BadRequest();
+            
    
         if(!SignatureVerificator.Verify(rawBody, signatureHeader, _options.SecondKey))
             return Unauthorized();

@@ -71,7 +71,7 @@ namespace DPBack.API.Controllers
         public async Task<ActionResult<CreateOrderResponseDto>> CreateOrder([FromBody] CreateOrderRequestDto request, CancellationToken cToken)
         {
             // var userId = GetCurrentUserId();
-            var response = await _service.CreateOrder(request, cToken);
+            var response = await _service.CreateOrder(Guid.NewGuid(),request, cToken);
             return Ok(response);
         }
 
