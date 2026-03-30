@@ -1,5 +1,6 @@
 ﻿using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
+using DPBack.Application.Exceptions;
 using DPBack.Domain.Models;
 using Microsoft.Extensions.Logging;
 
@@ -110,7 +111,7 @@ namespace DPBack.Application.Services
                 userId);
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception($"Order with id {orderId} not found");
+                throw new KeyNotFoundException($"Order with id {orderId} not found");
             
 
             return OrderToDto(order);
@@ -155,12 +156,12 @@ namespace DPBack.Application.Services
         {
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception($"Order with id {orderId} not found");
+                throw new KeyNotFoundException($"Order with id {orderId} not found");
             _logger.LogInformation("Changing {orderId} order status from {oldStatus} to {newStatus} by {author}",
                 orderId, order.Status, newStatus, author);
 
             if (order.AssignedTo != author)
-                throw new Exception("Order status change is not allowed");
+                throw new StatusChangeNotAllowedException();
             
 
             if (AllowedTransitions[order.Status].Contains(newStatus))
@@ -169,9 +170,7 @@ namespace DPBack.Application.Services
                 await _repo.ChangeStatus(orderId, author, newStatus, newAuthor, cToken);
             }
             else
-            {
-                throw new Exception("Order status change is not allowed");
-            }
+                throw new StatusChangeNotAllowedException();
         }
 
         public async Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId, CancellationToken cToken)
@@ -179,7 +178,7 @@ namespace DPBack.Application.Services
             _logger.LogInformation("Getting order {orderId} payment status", orderId);
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception($"Order with id {orderId} not found");
+                throw new KeyNotFoundException($"Order with id {orderId} not found");
             return order.PaymentStatus;
         }
 
@@ -187,9 +186,9 @@ namespace DPBack.Application.Services
         {
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception($"Order with id {orderId} not found");
+                throw new KeyNotFoundException($"Order with id {orderId} not found");
             if (order.PaymentStatus == status)
-                throw new Exception($"Can't change {orderId} payment status to the same value");
+                throw new StatusChangeNotAllowedException();
             
             _logger.LogInformation("Changing order {orderId} payment status from {oldStatus} to {newStatus}",
                 orderId, order.PaymentStatus, status);
@@ -200,7 +199,7 @@ namespace DPBack.Application.Services
         {
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
-                throw new Exception($"Order with id {orderId} not found");
+                throw new KeyNotFoundException($"Order with id {orderId} not found");
             
             await _repo.AssignOrderWithStatus(
                 orderId,

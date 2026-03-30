@@ -3,7 +3,10 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using DPBack.Application.Contracts;
 using DPBack.Application.Abstractions;
+using DPBack.Application.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DPBack.Infrastructure.Payments;
 
@@ -11,13 +14,15 @@ public class PayUService : IPaymentService
 {
     private readonly IPaymentTokenProvider _tokenProvider;
     private readonly HttpClient _client;
-    private readonly IConfiguration _configuration;
+    private readonly PayUOptions _options;
+    private readonly ILogger<PayUService> _logger;
 
-    public PayUService(IPaymentTokenProvider tokenProvider, HttpClient client, IConfiguration configuration)
+    public PayUService(IPaymentTokenProvider tokenProvider, HttpClient client, IOptions<PayUOptions> options, ILogger<PayUService> logger)
     {
         _tokenProvider = tokenProvider; 
         _client = client;
-        _configuration = configuration;
+        _options = options.Value;
+        _logger = logger;
     }
 
     public async Task<string> CreatePayment(string orderId, decimal totalPrice)
@@ -35,13 +40,13 @@ public class PayUService : IPaymentService
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
 
-        string norifyUrl = _configuration["Payu:NotifyUrl"] + "/api/payments/notify";
+        string norifyUrl = _options.NotifyUrl + "/api/payments/notify";
         var payuOrder = new
         {
             continueUrl = $"http://localhost:3000/payment/{orderId}/payment",
             notifyUrl = norifyUrl,
             customerIp = "127.0.0.1",
-            merchantPosId = _configuration["PayU:ClientId"],
+            merchantPosId = _options.ClientId,
             description = "test order",
             currencyCode = "PLN",
             totalAmount = totalPrice.ToString(), // в копейках: 1 PLN = 100
@@ -61,7 +66,7 @@ public class PayUService : IPaymentService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         if (result == null || string.IsNullOrEmpty(result.RedirectUri))
-            throw new Exception("RedirectUri not found in PayU response");
+            throw new ArgumentException("RedirectUri not found in PayU response");
 
         return result.RedirectUri;
     }
@@ -71,7 +76,7 @@ public class PayUService : IPaymentService
         var token = await _tokenProvider.GetToken();
         var handler = new HttpClientHandler
         {
-            AllowAutoRedirect = false // <-- отключаем автоматические редиректы
+            AllowAutoRedirect = false 
         };
 
         var client = new HttpClient(handler)

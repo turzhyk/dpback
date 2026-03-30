@@ -1,5 +1,6 @@
 using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
+using DPBack.Application.Exceptions;
 using DPBack.Application.Validators;
 using DPBack.Domain.Enums;
 using DPBack.Domain.Models;
@@ -28,10 +29,10 @@ public class UserService : IUserService
     {
         _logger.LogInformation("Creating new user");
         if (!EmailValidator.IsValid(request.Email))
-            throw new Exception("Invalid email");
+            throw new ArgumentException("Invalid email");
 
-        if (await _repo.GetByEmail(request.Email, cToken) !=null)
-            throw new Exception($"User with email {request.Email} already exists");
+        if (await _repo.GetByEmail(request.Email, cToken) != null)
+            throw new UserAlreadyExistsException(request.Email);
 
         var user = new User(
             Guid.NewGuid(),
@@ -71,7 +72,7 @@ public class UserService : IUserService
         // FLUENTVALIDATION email validaion
         var user = await _repo.GetByEmail(email, cToken);
         if (user == null)
-            throw new InvalidOperationException("User not found");
+            throw new KeyNotFoundException("User not found");
 
         var response = new UserDto
         {
