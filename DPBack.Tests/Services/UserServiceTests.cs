@@ -24,7 +24,18 @@ public class UserServiceTests
         _mockLogger = new Mock<ILogger<UserService>>();
         _service = new UserService(_mockRepository.Object, _mockHasher.Object, _mockToken.Object, _mockLogger.Object);
     }
+    [Fact]
+    public async Task GetById_ShouldReturnUser()
+    {
+        var id = Guid.NewGuid();
+        var user = new User{Id= id};
 
+        _mockRepository.Setup(r => r.GetById(id, It.IsAny<CancellationToken>())).ReturnsAsync(user);
+
+        var result = await _service.GetById(id, CancellationToken.None);
+        Assert.NotNull(result);
+        Assert.Equal(id, result.Id);
+    }
     [Fact]
     public async Task GetByEmail_ShouldReturnUser()
     {

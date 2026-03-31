@@ -29,6 +29,7 @@ namespace DPBack.Domain.Models
             int orderNumber, 
             string description,
             decimal price,
+            Guid customerId,
             List<OrderItem> items,
             string assignedTo,
             DateTime createdAt,
@@ -41,6 +42,7 @@ namespace DPBack.Domain.Models
             OrderNumber = orderNumber;
             Description = description;
             TotalPrice = price;
+            CustomerId = customerId;
             AssignedTo = assignedTo;
             CreatedAt = createdAt;
             Items = items;
@@ -55,6 +57,7 @@ namespace DPBack.Domain.Models
         public string Description { get; }
 
         public decimal TotalPrice { get; }
+        public Guid CustomerId { get; }
         public string AssignedTo { get; }
 
         public bool IsSuspended { get; }
@@ -77,13 +80,13 @@ namespace DPBack.Domain.Models
             // ));
         }
 
-        public static (Order Order, string Error) Create(Guid id, int number, string description, decimal price,
+        public static (Order Order, string Error) Create(Guid id, int number, string description, decimal price,Guid customerId,
             List<OrderItem> items, string assignedTo,
             DateTime createdAt, bool suspended, OrderStatus status, OrderPaymentStatus paymentStatus,
             List<OrderHistoryElement> history)
         {
             var error = string.Empty;
-            var order = new Order(id, number, description, price, items, assignedTo, createdAt, suspended, status,
+            var order = new Order(id, number, description, price, customerId, items, assignedTo, createdAt, suspended, status,
                 paymentStatus, history);
             return (order, error);
         }

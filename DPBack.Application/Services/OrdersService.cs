@@ -139,6 +139,7 @@ namespace DPBack.Application.Services
                 0,
                 requestDto.Desc,
                 totalPrice,
+                userId,
                 items,
                 "",
                 DateTime.UtcNow,

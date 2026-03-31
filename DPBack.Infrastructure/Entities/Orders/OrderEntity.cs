@@ -15,6 +15,8 @@ namespace DPBack.Infrastructure.Entities
         public string AssignedTo { get; set; }
         public DateTime CreatedAt { get; set; }
         public OrderPaymentStatus PaymentStatus { get; set; }
+        public string AddressSnapshot { get; set; }
+        public Guid CustomerId { get; set; }
         
         public List<OrderItemEntity> Items { get; set; } 
 

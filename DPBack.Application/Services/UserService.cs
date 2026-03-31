@@ -94,6 +94,32 @@ public class UserService : IUserService
         };
         return response;
     }
+    public async Task<UserDto> GetById(Guid id, CancellationToken cToken)
+    {
+        var user = await _repo.GetById(id, cToken);
+        if (user == null)
+            throw new KeyNotFoundException("User not found");
+
+        var response = new UserDto
+        {
+            Id = user.Id, Login = user.Login, Email = user.Email, CreatedAt = user.CreatedAt,
+            Addresses = user.Adresses?.Select(a => new UserAddressResponseDto
+            (
+                a.Id,
+                a.Country,
+                a.City,
+                a.Street,
+                a.BuildingNumber,
+                a.ApartmentNumber,
+                a.PostalCode,
+                a.PhoneNumber,
+                a.Email,
+                a.Options
+            )).ToList() ?? new List<UserAddressResponseDto>(),
+            Role = user.Role
+        };
+        return response;
+    }
 
     public async Task<List<UserAddressResponseDto>> GetAddressesByUserId(Guid id, CancellationToken cToken)
     {

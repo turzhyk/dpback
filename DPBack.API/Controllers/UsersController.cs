@@ -49,8 +49,9 @@ public class UsersController : ControllerBase
     }
     [Authorize]
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserDto>> GetUserByLogin(Guid id, CancellationToken cToken)
+    public async Task<ActionResult<UserDto>> GetUserById(Guid id, CancellationToken cToken)
     {
+        var userDto = _service.GetById(id, cToken);
         return Ok();
     }
 

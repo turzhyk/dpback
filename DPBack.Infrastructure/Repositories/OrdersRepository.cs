@@ -38,6 +38,7 @@ namespace DPBack.Infrastructure.Repositories
                 e.OrderNumber,
                 e.Descriprion,
                 e.TotalPrice,
+                e.CustomerId,
                 items,
                 e.AssignedTo,
                 e.CreatedAt,

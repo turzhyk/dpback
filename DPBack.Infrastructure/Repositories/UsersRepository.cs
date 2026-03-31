@@ -24,6 +24,14 @@ public class UsersRepository : IUsersRepository
         return new User(userEntity.Id, userEntity.Login, userEntity.PasswordHash, userEntity.Email, userEntity.Role,
             userEntity.CreatedAt);
     }
+    public async Task<User?> GetById(Guid id, CancellationToken cToken)
+    {
+        var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cToken);
+        if (userEntity == null)
+            return null;
+        return new User(userEntity.Id, userEntity.Login, userEntity.PasswordHash, userEntity.Email, userEntity.Role,
+            userEntity.CreatedAt);
+    }
 
     public async Task<Guid> CreateAsync(User user, CancellationToken cToken)
     {

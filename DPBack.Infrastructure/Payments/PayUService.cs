@@ -4,7 +4,6 @@ using System.Text.Json;
 using DPBack.Application.Contracts;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
