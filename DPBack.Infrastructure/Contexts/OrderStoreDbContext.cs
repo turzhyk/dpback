@@ -1,4 +1,5 @@
-﻿using DPBack.Infrastructure.Entities;
+﻿using DPBack.Domain.Models;
+using DPBack.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -13,6 +14,8 @@ namespace DPBack.Infrastructure.Contexts
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<OrderItemEntity> OrderItems { get; set; }
         public DbSet<OrderHistoryElementEntity> OrderStatusHistories { get; set; }
+        
+        public DbSet<DeliveryTypeEntity> DeliveryOptions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("OrderNumbers")

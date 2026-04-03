@@ -17,4 +17,5 @@ public class PriceController:ControllerBase
     {
         return _priceCalcService.Calculate(request);
     }
+    
 }

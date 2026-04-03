@@ -16,5 +16,7 @@ namespace DPBack.Application.Abstractions
         Task<OrderPaymentStatus> GetPaymentStatus(Guid orderId, CancellationToken cToken);
 
         Task ChangeStatus(Guid orderId, string author, OrderStatus newStatus, CancellationToken cToken);
+
+        Task<IEnumerable<DeliveryOptionResposeDto>> GetDeliveryOptionList();
     }
 }

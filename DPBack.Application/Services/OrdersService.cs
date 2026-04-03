@@ -212,5 +212,10 @@ namespace DPBack.Application.Services
                     ChangedAt = DateTime.UtcNow
                 }, cToken);
         }
+
+        public async Task<IEnumerable<DeliveryOptionResposeDto>> GetDeliveryOptionList()
+        {
+            return null;
+        }
     }
 }
