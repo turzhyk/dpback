@@ -16,6 +16,12 @@ public class UsersRepository : IUsersRepository
         _context = context;
     }
 
+    public async Task<bool> UserWithIdExists(Guid id, CancellationToken cToken)
+    {
+        var user =await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, cToken);
+        return !(user is null);
+    }
+
     public async Task<User?> GetByEmail(string email, CancellationToken cToken)
     {
         var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cToken);

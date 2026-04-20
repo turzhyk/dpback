@@ -123,6 +123,10 @@ public class UserService : IUserService
 
     public async Task<List<UserAddressResponseDto>> GetAddressesByUserId(Guid id, CancellationToken cToken)
     {
+        var exists = await _repo.UserWithIdExists(id, cToken);
+        if (!exists)
+            throw new KeyNotFoundException("user not found");
+        
         var entities = await _repo.GetAdressesByUserId(id, cToken);
 
         return entities.Select(a => new UserAddressResponseDto
@@ -140,11 +144,16 @@ public class UserService : IUserService
         )).ToList();
     }
 
-    public async Task AddUserAddress(Guid userId, UserAdressCreateDto dto, CancellationToken cToken)
+    public async Task<Guid> AddUserAddress(Guid userId, UserAdressCreateDto dto, CancellationToken cToken)
     {
-        var userAdress = new UserAdress(Guid.NewGuid(), userId, dto.Country, dto.City, dto.Street,
+        var exists = await _repo.UserWithIdExists(userId, cToken);
+        if (!exists)
+            throw new KeyNotFoundException("user not found");
+        var guid = Guid.NewGuid();
+        var userAdress = new UserAdress(guid, userId, dto.Country, dto.City, dto.Street,
             dto.BuildingNumber, dto.ApartmentNumber, dto.PostalCode, dto.PhoneNumber, dto.Email,
             dto.Options);
-        await _repo.AddUserAdress(userAdress, cToken);
+         await _repo.AddUserAdress(userAdress, cToken);
+         return guid;
     }
 }

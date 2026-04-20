@@ -1,8 +1,4 @@
 ﻿namespace DPBack.Application.Contracts;
 
 
-public class AssignOrderRequest
-{
-    public Guid OrderId { get; set; }
-    public string AuthorLogin { get; set; }
-}
+public record AssignOrderRequest(Guid OrderId, string AuthorLogin);

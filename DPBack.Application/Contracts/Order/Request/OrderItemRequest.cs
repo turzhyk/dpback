@@ -3,9 +3,8 @@ using DPBack.Domain.Enums;
 
 namespace DPBack.Application.Contracts;
 
-public class OrderItemRequest
-{
-    public int Quantity { get; set; }
-    public OrderItemType Type { get; set; }
-    public JsonElement Options { get; set; }
-}
+public record OrderItemRequest(
+    int Quantity,
+    OrderItemType Type,
+    JsonElement Options
+);

@@ -16,9 +16,9 @@ public class UserAdress
         Email = email;
         Options = options;
     }
-
+    public UserAdress(){}
   
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
     public Guid UserId { get; private set; }
     public string Country { get; private set; }
     public string City { get; private set; }

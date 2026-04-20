@@ -13,7 +13,7 @@ public class BusinesscardCalculator : IPriceCalculator
 {
     private readonly BusinesscardPricing _pricing;
     public OrderItemType Type => OrderItemType.Businesscard;
-
+    
     public BusinesscardCalculator(IOptions<BusinesscardPricing> pricing)
     {
         _pricing = pricing.Value;

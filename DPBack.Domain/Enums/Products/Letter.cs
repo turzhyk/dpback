@@ -9,11 +9,11 @@ public class Letter
 
     public enum Color
     {
-        Black, White, Red, Yellow,Pink
+        Black, White, Red, Yellow, Pink
     }
 
     public enum Thickness
     {
-        T120,T180
+        T120, T180
     }
 }

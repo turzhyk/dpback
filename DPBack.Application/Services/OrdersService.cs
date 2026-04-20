@@ -1,6 +1,7 @@
 ﻿using DPBack.Application.Abstractions;
 using DPBack.Application.Contracts;
 using DPBack.Application.Exceptions;
+using DPBack.Application.Extensions;
 using DPBack.Domain.Models;
 using Microsoft.Extensions.Logging;
 
@@ -32,34 +33,7 @@ namespace DPBack.Application.Services
         private readonly IPaymentService _paymentService;
         private readonly IPriceCalcService _priceService;
         private readonly ILogger<OrdersService> _logger;
-
-        private OrderResponseDto OrderToDto(Order o)
-        {
-            return new OrderResponseDto
-            {
-                id = o.Id,
-                OrderNumber = o.OrderNumber,
-                Desc = o.Description,
-                Price = o.TotalPrice,
-                Items = o.Items.Select(i => new OrderItemResponse
-                {
-                    Quantity = i.Quantity,
-                    Type = i.Type,
-                    Options = i.Options
-                }).ToList(),
-                History = o.History.Select(h => new OrderHistoryElementResponse
-                {
-                    Status = h.Status.ToString(),
-                    ChangedAt = h.ChangedAt,
-                    AuthorId = h.AuthorLogin
-                }).ToList(),
-                AssignedTo = o.AssignedTo,
-                CreatedAt = o.CreatedAt,
-                IsSuspended = o.IsSuspended,
-                Status = o.Status,
-                PaymentStatus = o.PaymentStatus
-            };
-        }
+        
 
         public OrdersService(IOrdersRepository ordersRepo, IPaymentService paymentService,
             IPriceCalcService priceCalcService
@@ -77,7 +51,7 @@ namespace DPBack.Application.Services
             _logger.LogInformation("Getting all orders");
             var orders = await _repo.GetAll(cToken, 0, 100);
             var response = orders.Select(o =>
-                OrderToDto(o)).ToList();
+                o.ToDto()).ToList();
             return response;
         }
 
@@ -95,7 +69,7 @@ namespace DPBack.Application.Services
             var totalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize);
             return new PagedRespose<OrderResponseDto>
             {
-                Items = orders.Select(OrderToDto).ToList(),
+                Items = orders.Select(o => o.ToDto()).ToList(),
                 TotalItems = totalCount,
                 PageIndex = request.PageNumber,
                 PageSize = request.PageSize,
@@ -113,8 +87,7 @@ namespace DPBack.Application.Services
             if (order == null)
                 throw new KeyNotFoundException($"Order with id {orderId} not found");
             
-
-            return OrderToDto(order);
+            return order.ToDto();
         }
 
         public async Task<CreateOrderResponseDto> CreateOrder(Guid userId, CreateOrderRequestDto requestDto,
@@ -150,7 +123,7 @@ namespace DPBack.Application.Services
             );
             await _repo.Create(order, cToken);
             var paymentUrl = await _paymentService.CreatePayment(order.Id.ToString(), totalPrice);
-            return new CreateOrderResponseDto { OrderId = order.Id.ToString(), PaymentUrl = paymentUrl };
+            return new CreateOrderResponseDto(order.Id, paymentUrl);
         }
 
         public async Task ChangeStatus(Guid orderId, string author, OrderStatus newStatus, CancellationToken cToken)
@@ -163,7 +136,7 @@ namespace DPBack.Application.Services
 
             if (order.AssignedTo != author)
                 throw new StatusChangeNotAllowedException();
-            
+
 
             if (AllowedTransitions[order.Status].Contains(newStatus))
             {
@@ -190,7 +163,7 @@ namespace DPBack.Application.Services
                 throw new KeyNotFoundException($"Order with id {orderId} not found");
             if (order.PaymentStatus == status)
                 throw new StatusChangeNotAllowedException();
-            
+
             _logger.LogInformation("Changing order {orderId} payment status from {oldStatus} to {newStatus}",
                 orderId, order.PaymentStatus, status);
             await _repo.SetPaymentStatus(orderId, status, cToken);
@@ -201,7 +174,7 @@ namespace DPBack.Application.Services
             var order = await _repo.GetWithId(orderId, cToken);
             if (order == null)
                 throw new KeyNotFoundException($"Order with id {orderId} not found");
-            
+
             await _repo.AssignOrderWithStatus(
                 orderId,
                 author,

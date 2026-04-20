@@ -8,7 +8,7 @@ namespace DPBack.Domain.Models
     {
         public Guid Id { get; set; }
         public string Login { get; set; }
-        public string PasswordHash { get; private set; }
+        public string PasswordHash { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
         public DateTime CreatedAt { get; set; }

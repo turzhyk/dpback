@@ -29,7 +29,7 @@ public class PayUService : IPaymentService
         var token = await _tokenProvider.GetToken();
         var handler = new HttpClientHandler
         {
-            AllowAutoRedirect = false // <-- отключаем автоматические редиректы
+            AllowAutoRedirect = false 
         };
 
         var client = new HttpClient(handler)
@@ -48,11 +48,11 @@ public class PayUService : IPaymentService
             merchantPosId = _options.ClientId,
             description = "test order",
             currencyCode = "PLN",
-            totalAmount = totalPrice.ToString(), // в копейках: 1 PLN = 100
+            totalAmount = totalPrice.ToString(),
             extOrderId = orderId,
             products = new[]
             {
-                new { name = "Order", unitPrice = totalPrice.ToString(), quantity = "1" } // unitPrice тоже в копейках
+                new { name = "Order", unitPrice = totalPrice.ToString(), quantity = "1" }
             }
         };
 

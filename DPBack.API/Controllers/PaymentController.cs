@@ -28,8 +28,6 @@ public class PaymentController : Controller
     [HttpPost("notify")]
     public async Task<IActionResult> Notify(CancellationToken cToken)
     { 
-        // var rawBody = await RawBodyConverter.GetRawBody(Request);
-        // Console.WriteLine(rawBody)
         Request.Body.Position = 0;
         using var reader = new StreamReader(Request.Body, leaveOpen: true);
         var rawBody = await reader.ReadToEndAsync(cToken);
