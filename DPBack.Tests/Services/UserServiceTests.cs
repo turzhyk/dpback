@@ -82,7 +82,7 @@ public class UserServiceTests
         var user = new User { Email = email };
         var passwordHash = "";
 
-        _mockHasher.Setup(x => x.HashPassword(user, password)).Returns(passwordHash);
+        _mockHasher.Setup(x => x.HashPassword(It.IsAny<User>(), password)).Returns(passwordHash);
         var newUser = new User { Email = email, PasswordHash = passwordHash };
         var guid = Guid.NewGuid();
         _mockRepository.Setup(x => x.CreateAsync(
@@ -103,7 +103,7 @@ public class UserServiceTests
         var id = Guid.NewGuid();
         List<UserAdress> addresses = new List<UserAdress>() { new UserAdress { Id = Guid.NewGuid() } };
 
-
+        _mockRepository.Setup(x => x.UserWithIdExists(id, It.IsAny<CancellationToken>())).ReturnsAsync(true);
         _mockRepository.Setup(x =>
             x.GetAdressesByUserId(id, It.IsAny<CancellationToken>())).ReturnsAsync(addresses);
 
@@ -115,7 +115,8 @@ public class UserServiceTests
     public async Task GetUserAddresses_ShouldReturnEmptyList_WhenNoAddressesFound()
     {
         List<UserAdress> addresses = new List<UserAdress>();
-
+        _mockRepository.Setup(x => x.UserWithIdExists(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
         _mockRepository.Setup(x => x.GetAdressesByUserId(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(addresses);
         var result = await _service.GetAddressesByUserId(Guid.NewGuid(), CancellationToken.None);
@@ -155,6 +156,6 @@ public class UserServiceTests
             .ReturnsAsync(false);
 
         await Assert.ThrowsAsync<KeyNotFoundException>(() =>
-            _service.AddUserAddress(Guid.NewGuid(), It.IsAny<UserAdressCreateDto>(), CancellationToken.None));
+            _service.AddUserAddress(Guid.NewGuid(), null, CancellationToken.None));
     }
 }

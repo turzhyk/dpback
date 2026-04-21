@@ -30,8 +30,6 @@ public class OrderServiceTests
     [Fact]
     public async Task CreateOrder_ShouldReturnResponseDto()
     {
-        var response = new CreateOrderResponseDto(Guid.NewGuid(), "link");
-
         var orderDto = new CreateOrderRequestDto("Test order", Guid.NewGuid(), new List<OrderItemRequest>()
         {
             new OrderItemRequest(1, OrderItemType.Businesscard, new JsonElement())
@@ -44,6 +42,7 @@ public class OrderServiceTests
 
         var result = await _service.CreateOrder(Guid.NewGuid(), orderDto, CancellationToken.None);
         
-        Assert.Equal(result, response);
+        Assert.NotEmpty(result.PaymentUrl);
+        Assert.NotEqual(Guid.Empty,result.OrderId);
     }
 }
