@@ -4,6 +4,7 @@ using System.Text.Json;
 using DPBack.Application.Contracts;
 using DPBack.Application.Abstractions;
 using DPBack.Application.Options;
+using DPBack.Infrastructure.Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -48,11 +49,11 @@ public class PayUService : IPaymentService
             merchantPosId = _options.ClientId,
             description = "test order",
             currencyCode = "PLN",
-            totalAmount = totalPrice.ToString(),
+            totalAmount =  Convert.ToInt32(totalPrice * 100m),
             extOrderId = orderId,
             products = new[]
             {
-                new { name = "Order", unitPrice = totalPrice.ToString(), quantity = "1" }
+                new { name = "Order", unitPrice =  Convert.ToInt32(totalPrice * 100m), quantity = "1" }
             }
         };
 
@@ -65,7 +66,7 @@ public class PayUService : IPaymentService
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         if (result == null || string.IsNullOrEmpty(result.RedirectUri))
-            throw new ArgumentException("RedirectUri not found in PayU response");
+            throw new PayUException("RedirectUri not found in PayU response");
 
         return result.RedirectUri;
     }

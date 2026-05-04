@@ -10,9 +10,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DPBack.API.Extensions;
 
-public  static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddScoped<IOrdersService, OrdersService>();
         services.AddScoped<IOrdersRepository, OrdersRepository>();
@@ -20,16 +21,21 @@ public  static class ServiceCollectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUsersRepository, UsersRepository>();
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-        
+
         services.Configure<BusinesscardPricing>(
             configuration.GetSection("Pricing:Businesscard"));
         services.AddScoped<IPriceCalculator, BusinesscardCalculator>();
         services.Configure<OpeningHoursStickerPricing>(
             configuration.GetSection("Pricing:WindowStickers:OpeningHours"));
         services.AddScoped<IPriceCalculator, OpeningHoursStickerCalculator>();
+        services.Configure<PhotoPricing>(
+            configuration.GetSection("Pricing:Photo"));
+        services.AddScoped<IPriceCalculator, PhotoCalculator>();
+
+
         services.AddScoped<PriceCalculatorFactory>();
-        
-       services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
+
+        services.AddSingleton<IPaymentTokenProvider, PayUTokenProvider>();
         return services;
     }
 }

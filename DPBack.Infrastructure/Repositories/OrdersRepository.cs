@@ -118,6 +118,7 @@ namespace DPBack.Infrastructure.Repositories
                 History = history,
                 CreatedAt = order.CreatedAt,
                 PaymentStatus = order.PaymentStatus,
+                AddressSnapshot = "",
                 Status = order.Status
             };
             await _context.Orders.AddAsync(orderEntity, cToken);

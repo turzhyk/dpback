@@ -26,11 +26,33 @@ namespace DPBack.Infrastructure.Migrations
             modelBuilder.HasSequence<int>("OrderNumbers")
                 .StartsAt(10001L);
 
+            modelBuilder.Entity("DPBack.Domain.Models.DeliveryTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryOptions");
+                });
+
             modelBuilder.Entity("DPBack.Infrastructure.Entities.OrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("AddressSnapshot")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("AssignedTo")
                         .IsRequired()
@@ -38,6 +60,9 @@ namespace DPBack.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Descriprion")
                         .IsRequired()

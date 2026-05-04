@@ -4,5 +4,13 @@ public enum OrderItemType
 {
     Businesscard,
     Banner,
-    OpeningHoursSticker
+    OpeningHoursSticker,
+    a,
+    b,
+    c,
+    aa,
+    bb,
+    cc,
+    aaa,
+    PhotoA4
 }

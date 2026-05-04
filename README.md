@@ -24,8 +24,13 @@ Clean Architecture with 5 layers:
 - **Tests** - well, unit-test
 
 ## Getting started 🚧
-_instructions will be added later🤷‍♂️_
-
+- Install Docker `https://www.docker.com/`
+- Clone this repo `git clone https://github.com/turzhyk/dpback-ecomm-api`
+- Start Docker
+- In project root run `docker compose up`
+- Then run `dotnet ef database update --context orderstoredbcontext --startup-project .\DPBack.API\`
+- and `dotnet ef database update --context userstoredbcontext --startup-project .\DPBack.API\`
+- Run the API
 ## Design Decisions
 - Strategy pattern for price calculators. Adding new product type requires only a new class implementing IPriceCalculator
 - PayU webhooke ("notify") signature verification via HMAC

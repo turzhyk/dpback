@@ -1,7 +1,6 @@
 ﻿using DPBack.Application.Contracts;
 
 namespace DPBack.Application.Contracts
-
 {
     public record CreateOrderRequestDto(
         string Desc,

@@ -4,7 +4,7 @@ public static class CorsExtensions
 {
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {
-        var urls = configuration.GetValue<string[]>("AllowedFrontUrls");
+        var urls = configuration.GetSection("Cors:Origins").Get < string[] > ();
 
         services.AddCors(options =>
         {

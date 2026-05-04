@@ -18,8 +18,8 @@ public class PriceCalcService : IPriceCalcService
 
     public decimal Calculate(OrderItemRequest request)
     {
-        var item = new OrderItem { Type = request.Type, Options = request.Options };
+        var item = new OrderItem { Type = request.Type, Quantity = request.Quantity, Options = request.Options };
         var calc = _factory.Get(item.Type);
-        return calc.Calculate(item.Options);
+        return calc.Calculate(item.Options) *item.Quantity;
     }
 }

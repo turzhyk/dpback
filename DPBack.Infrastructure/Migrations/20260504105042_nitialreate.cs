@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DPBack.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class nitialreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,6 +15,19 @@ namespace DPBack.Infrastructure.Migrations
             migrationBuilder.CreateSequence<int>(
                 name: "OrderNumbers",
                 startValue: 10001L);
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryOptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryOptions", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Orders",
@@ -28,7 +41,9 @@ namespace DPBack.Infrastructure.Migrations
                     TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
                     AssignedTo = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "integer", nullable: false)
+                    PaymentStatus = table.Column<int>(type: "integer", nullable: false),
+                    AddressSnapshot = table.Column<string>(type: "text", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,6 +107,9 @@ namespace DPBack.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DeliveryOptions");
+
             migrationBuilder.DropTable(
                 name: "OrderItems");
 
